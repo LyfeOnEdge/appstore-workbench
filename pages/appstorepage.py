@@ -7,6 +7,7 @@ from widgets import ThemedFrame, ThemedListbox, ThemedLabel, searchBox, activeFr
 from customwidgets import categorylistFrame, installedcategorylistFrame
 from github_updater import updater
 from appstore import Parser, Store_handler
+from asyncthreader import threader
 from .yesnopage import yesnoPage
 from .settingspage import settingsPage
 from .exitpage import exitPage
@@ -195,7 +196,7 @@ class appstorePage(activeFrame):
 				listbox.insert("end", " {}".format(page_name))
 				self.all_frames.append(f)
 
-		make_frames_and_add_to_list(self.frames, self.category_listbox)
+		threader.do_async(lambda: make_frames_and_add_to_list(self.frames, self.category_listbox))
 
 		self.category_listbox.select_set(0) #sets focus on the first item in listbox
 		self.category_listbox.event_generate("<<ListboxSelect>>")
