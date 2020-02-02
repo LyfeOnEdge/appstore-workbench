@@ -1,0 +1,10 @@
+{
+    "UPDATENAME": "appstore-workbench",
+    "UPDATEURL": "https://api.github.com/repos/LyfeOnEdge/appstore-workbench/",
+    "ASSETPATTERN": [
+        [
+            "appstore-workbench"
+        ],
+        ".zip"
+    ]
+}
