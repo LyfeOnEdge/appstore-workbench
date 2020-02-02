@@ -6,6 +6,7 @@ import style
 from widgets import ThemedLabel, ThemedListbox
 from locations import notfoundimage
 from appstore import Store_handler
+from asyncthreader import threader
 
 class categorylistFrame(tk.Frame):
     def __init__(self,parent,controller,framework, packages):
@@ -18,9 +19,13 @@ class categorylistFrame(tk.Frame):
         self.current_search = None
         self.selected = False
         self.sort_type = None
+        self.listbox_list = []
 
         tk.Frame.__init__(self, parent, background = style.w, border = 0, highlightthickness = 0)
 
+        threader.do_async(self.build_listframe)
+
+    def build_listframe(self):
         columnwidth = 0.33 * (self.winfo_width() - style.updated_column_width)
         self.body_frame = tk.Frame(self, background = style.color_1)
         self.body_frame.place(relwidth = 1, relheight = 1) 
@@ -74,6 +79,7 @@ class categorylistFrame(tk.Frame):
         self.set_sort_type(None)
         self.rebuild()
 
+
     def get_current_packages(self):
         packages = self.search_packages(self.current_search)
         if self.sort_type:
@@ -117,47 +123,51 @@ class categorylistFrame(tk.Frame):
         self.build_frame(self.get_current_packages())
     
     def build_frame(self, packages):
-        if not packages:
-            return
+        def do_build_frame():
+            if not packages:
+                return
 
-        self.clear()
+            self.clear()
 
-        for lb in self.listbox_list:
-            lb.configure(state = "normal")
+            if self.listbox_list:
+                for lb in self.listbox_list:
+                    lb.configure(state = "normal")
 
-        installed_packages = self.appstore_handler.get_packages(silent = True)
+                installed_packages = self.appstore_handler.get_packages(silent = True)
 
-        for package in packages:
-            self.package_listbox.insert('end', package["name"])
-            self.title_listbox.insert('end', package["title"])
-            self.author_listbox.insert('end', package["author"])
-            self.updated_listbox.insert('end', package["updated"])
-            if installed_packages:
-                if package["name"] in installed_packages:
-                    if self.appstore_handler.get_package_version(package["name"]) == package["version"]:
-                        self.package_listbox.itemconfig('end', {"fg" : "green"})
-                    else:
-                        self.package_listbox.itemconfig('end', {"fg" : "yellow"})
+                for package in packages:
+                    self.package_listbox.insert('end', package["name"])
+                    self.title_listbox.insert('end', package["title"])
+                    self.author_listbox.insert('end', package["author"])
+                    self.updated_listbox.insert('end', package["updated"])
+                    if installed_packages:
+                        if package["name"] in installed_packages:
+                            if self.appstore_handler.get_package_version(package["name"]) == package["version"]:
+                                self.package_listbox.itemconfig('end', {"fg" : "green"})
+                            else:
+                                self.package_listbox.itemconfig('end', {"fg" : "yellow"})
 
-        for lb in self.listbox_list:
-            lb.configure(state = "disable")
-        self.package_listbox.configure(state = 'normal')
+                for lb in self.listbox_list:
+                    lb.configure(state = "disable")
+                self.package_listbox.configure(state = 'normal')
 
-        bindlist = [
-            self,
-            self.package_listbox,
-            self.title_listbox,
-            self.author_listbox,
-            self.updated_listbox
-        ]
+                bindlist = [
+                    self,
+                    self.package_listbox,
+                    self.title_listbox,
+                    self.author_listbox,
+                    self.updated_listbox
+                ]
 
-        if platform.system() == 'Windows' or platform.system() == "Darwin":
-            for b in bindlist:
-                b.bind("<MouseWheel>", self.on_mouse_wheel)
-        elif platform.system() == "Linux":
-            for b in bindlist:
-                b.bind("<Button-4>", self.on_mouse_wheel)
-                b.bind("<Button-5>", self.on_mouse_wheel)
+                if platform.system() == 'Windows' or platform.system() == "Darwin":
+                    for b in bindlist:
+                        b.bind("<MouseWheel>", self.on_mouse_wheel)
+                elif platform.system() == "Linux":
+                    for b in bindlist:
+                        b.bind("<Button-4>", self.on_mouse_wheel)
+                        b.bind("<Button-5>", self.on_mouse_wheel)
+                        
+        threader.do_async(do_build_frame)
 
     def open_details(self, package):
         self.controller.frames["detailPage"].show(package)
@@ -176,10 +186,11 @@ class categorylistFrame(tk.Frame):
         self.rebuild()
 
     def clear(self):
-        for lb in self.listbox_list:
-            lb.configure(state = "normal")
-            lb.delete(0, "end")
-            lb.configure(state = "disable")
+        if self.listbox_list:
+            for lb in self.listbox_list:
+                lb.configure(state = "normal")
+                lb.delete(0, "end")
+                lb.configure(state = "disable")
 
     def on_scroll_bar(self, move_type, move_units, __ = None):
         if move_type == "moveto":

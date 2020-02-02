@@ -19,6 +19,7 @@ One of the main goals of this app is to provide a homebrew management tool that 
  - Compatible with the Homebrew Appstore package manager
  - Easily open project pages
  - Threaded operations mean the app stays responsive with big downloads
+ - Scalable window
 
 # Requirements:
     Works on: macOS, Windows, Linux
@@ -69,5 +70,5 @@ One of the main goals of this app is to provide a homebrew management tool that 
  - Image download errors are to be expected, please do not report them.
 
 ##### Want to contribute? Have ideas? Questions? Great!
-You can find me on my hacking/homebrew discord server here: 
+You can find me here: 
 **[Switch Tools](https://discord.gg/de7tdqe)**
