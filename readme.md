@@ -1,7 +1,7 @@
 # About
 Appstore-workbench - A wip tool for switch devs
 
-[![Appstore-workbench](https://raw.githubusercontent.com/LyfeOnEdge/appstore-workbench/master/img/main.png)]()
+[![Appstore-workbench](https://raw.githubusercontent.com/LyfeOnEdge/appstore-workbench/master/docu/main.png)]()
 
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)]() [![Releases](https://img.shields.io/github/downloads/LyfeOnEdge/appstore-workbench/total.svg)]() [![LatestVer](https://img.shields.io/github/release-pre/LyfeOnEdge/appstore-workbench.svg)]() 
 
