@@ -3,8 +3,7 @@ import tkinter.filedialog
 import tkinter as tk
 import style as style
 import locations
-from widgets import ThemedFrame, ThemedListbox, ThemedLabel, searchBox, activeFrame, scrolledText, button
-from customwidgets import categorylistFrame, installedcategorylistFrame
+from widgets import ThemedFrame, ThemedListbox, ThemedLabel, searchBox, activeFrame, scrolledText, button, categorylistFrame, installedcategorylistFrame
 from github_updater import updater
 from appstore import Parser, Store_handler
 from asyncthreader import threader

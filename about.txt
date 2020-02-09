@@ -20,4 +20,4 @@ Credits:
 Resources:
 Repository URL - https://www.switchbru.com/appstore/repo.json
 Original app source - https://github.com/vgmoose/hb-appstore
-Unofficial python rewrite source - https://github.com/LyfeOnEdge/unofficial-appstore
+Unofficial python rewrite source - https://github.com/LyfeOnEdge/appstore-workbench

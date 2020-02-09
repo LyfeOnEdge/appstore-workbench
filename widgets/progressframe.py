@@ -1,10 +1,13 @@
 import tkinter as tk
 from style import *
+from .safe_button import button
 from .progbar import progBar
+from PIL import Image, ImageTk
+import style
 
 class progressFrame(tk.Frame):
     def __init__(self, frame):
-        tk.Frame.__init__(self,frame,background=w)
+        tk.Frame.__init__(self,frame,background=color_1)
         self.framework = frame
         self.progress = None
         self.progress_text = tk.StringVar()
@@ -14,16 +17,16 @@ class progressFrame(tk.Frame):
         self.display_value = 0
 
         self.progresstitle = tk.Label(self,
-            background = w,
+            background = color_1,
             highlightthickness=0,
             anchor="center",
             font=hugeboldtext,
-            foreground= b,
+            foreground= w,
             textvariable = self.title,
-            ).place(relwidth = 1, height = progressbarheight, width = -2*offset, rely = 0.25, y = - (2 * progressbarheight + 2 * offset))
+            ).place(relwidth = 1, relheight = 0.25, width = -2*offset, rely = 0.25, y = - (2 * progressbarheight + 2 * offset))
 
         self.progbartext = tk.Label(self,
-            background = w,
+            background = color_1,
             highlightthickness=0,
             anchor="center",
             font=largeboldtext,
@@ -33,6 +36,11 @@ class progressFrame(tk.Frame):
 
         self.progbar = progBar(self)
         self.progbar.Place(relwidth = 1, height = progressbarheight, width = -2*offset, rely = 0.5, y = - progressbarheight / 2)
+
+        self.back_image = ImageTk.PhotoImage(Image.open("assets/return.png").resize((style.buttonsize, style.buttonsize), Image.ANTIALIAS))
+        self.backbutton = button(self, image_object=self.back_image, callback=self.hide, background=style.color_1)
+        self.backbutton.place(rely=1,relx=1,x = -(style.buttonsize + style.offset), y = -(style.buttonsize + style.offset))
+
 
     def set_title(self, title):
         self.title.set(title)

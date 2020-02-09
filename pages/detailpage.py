@@ -2,9 +2,8 @@ import os
 import tkinter as tk
 import tkinter.filedialog
 import locations
-from widgets import ThemedFrame, ThemedLabel, ThemedListbox, activeFrame, scrolledText, button, tooltip, ScrolledThemedListBox
+from widgets import ThemedFrame, ThemedLabel, ThemedListbox, activeFrame, scrolledText, button, tooltip, ScrolledThemedListBox, progressFrame
 from appstore import Parser, Store_handler
-from customwidgets import progressFrame
 import style
 from appstore import getScreenImage
 from webhandler import opentab
