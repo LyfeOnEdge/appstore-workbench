@@ -45,10 +45,15 @@ except:
 from widgets import frameManager
 from appstore import Parser, appstore_handler, getPackageIcon
 from webhandler import getJson, getCachedJson
-from locations import update_url
 from github_updater import updater
 from settings_tool import settings
 from pages import pagelist
+
+folders_to_init = ["cache", "cache/json", "cache/images", "downloads"]
+for folder in folders_to_init:
+    if not os.path.isdir(folder):
+        print(f"Initializing folder {folder}")
+        os.mkdir(folder)
 
 print("Checking for updates...")
 if updater.check_for_update(version):
@@ -137,19 +142,18 @@ if not parsed_args:
     # Launch normally, get updated repo file
     print("Getting updated homebrew repository file")
     packages_json = getJson(
-        "repos", "https://www.switchbru.com/appstore/repo.json")
+        "repo", "https://www.switchbru.com/appstore/repo.json")
     if not packages_json:
         print("Failed to download packages json repo file, falling back on cached version")
-        raise
 else:
     # Launching with `python3 script.py test` will allow
     # you to test gui changes without hitting the repo
     # uses cached json
     if parsed_args.repo.lower() == "test":
         print("Using local json")
-        packages_json = getCachedJson("repos")
+        packages_json = getCachedJson("repo")
     else:
-        print("Using passed repo json {}".format(parsed_args.repo))
+        print(f"Using passed repo json {parsed_args.repo}")
         packages_json = parsed_args.repo
 
 # Parse the json into categories

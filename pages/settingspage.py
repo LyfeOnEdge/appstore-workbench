@@ -5,7 +5,6 @@ from widgets import button, ThemedLabel
 import style
 from .yesnopage import yesnoPage
 from .usermessagepage import usermessagePage
-import locations
 from settings_tool import settings
 
 class customOptionMenu(tk.OptionMenu):
@@ -85,6 +84,6 @@ class settingsPage(tk.Frame):
 		self.yesno.getanswer("Are you sure you'd like to clear the cache?", self.do_clear_cache)
 
 	def do_clear_cache(self):
-		for root, dirs, files in os.walk(locations.cachefolder, topdown=False):
+		for root, dirs, files in os.walk('cache', topdown=False):
 			for f in files:
 				os.remove(os.path.join(root, f))

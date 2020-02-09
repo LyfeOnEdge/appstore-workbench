@@ -1,7 +1,6 @@
 import os
 import tkinter as tk
 import tkinter.filedialog
-import locations
 from widgets import ThemedFrame, ThemedLabel, ThemedListbox, activeFrame, scrolledText, button, tooltip, ScrolledThemedListBox, progressFrame
 from appstore import Parser, Store_handler
 import style
@@ -78,7 +77,7 @@ class detailPage(activeFrame):
             background=style.color_2
             )
 
-        self.back_image = ImageTk.PhotoImage(Image.open(locations.backimage).resize((style.buttonsize, style.buttonsize), Image.ANTIALIAS))
+        self.back_image = ImageTk.PhotoImage(Image.open("assets/return.png").resize((style.buttonsize, style.buttonsize), Image.ANTIALIAS))
 
         self.column_backbutton = button(self.column_body, image_object=self.back_image, callback=self.leave, background=style.color_1)
         self.column_backbutton.place(rely=1,relx=1,x = -(style.buttonsize + style.offset), y = -(style.buttonsize + style.offset))
@@ -200,7 +199,7 @@ class detailPage(activeFrame):
         if self.bannerimage:
             self.do_update_banner(self.bannerimage)
         else:
-            self.do_update_banner(locations.notfoundimage)
+            self.do_update_banner("assets/notfound.png")
 
     def do_update_banner(self,image_path):
         maxheight = self.content_banner_image_frame.winfo_height()
@@ -223,7 +222,7 @@ class detailPage(activeFrame):
             self.content_banner_image.image = art_image
 
     def show(self, repo):
-        self.do_update_banner(locations.notfoundimage)
+        self.do_update_banner("assets/notfound.png")
         threader.do_async(self.update_page, [repo], priority = "medium")
         self.tkraise()
         for child in self.winfo_children():

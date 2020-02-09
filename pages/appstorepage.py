@@ -312,14 +312,14 @@ class textFrame(ThemedFrame):
 class aboutFrame(textFrame):
 	def __init__(self,frame):
 		textFrame.__init__(self, frame)
-		with open(locations.aboutfile) as aboutfile:
+		with open("about.txt") as aboutfile:
 			self.set(aboutfile.read())
 
 #Super basic readme frame, pulls from readme.md
 class readmeFrame(textFrame):
 	def __init__(self,frame):
 		textFrame.__init__(self, frame)
-		with open(locations.readme) as readme:
+		with open('readme.md') as readme:
 			self.set(readme.read())
 
 #Super basic readme frame, pulls from help.txt

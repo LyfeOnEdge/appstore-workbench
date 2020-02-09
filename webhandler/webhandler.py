@@ -1,5 +1,4 @@
 import os, sys, shutil
-import locations
 from .etags import accessETaggedFile
 
 #web handling
@@ -32,12 +31,13 @@ def download(fileURL):
 
 def getJson(softwarename, apiurl):
 	try:
-		jsonfile = os.path.join(locations.jsoncachefolder, softwarename + ".json")
+		jsonfile = os.path.join("cache/json", softwarename + ".json")
 		jfile = accessETaggedFile(apiurl,jsonfile)
 		return jfile
-	except:
+	except Exception as e:
+		print(e)
 		print("failed to download json file for {}".format(softwarename))
 		return None
 
 def getCachedJson(softwarename):
-	return os.path.join(locations.jsoncachefolder, softwarename + ".json")
+	return os.path.join("cache/json", softwarename + ".json")

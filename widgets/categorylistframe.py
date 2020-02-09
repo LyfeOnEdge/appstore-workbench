@@ -4,7 +4,6 @@ from PIL import Image, ImageTk
 from timeit import default_timer as timer
 import style
 from widgets import ThemedLabel, ThemedListbox
-from locations import notfoundimage
 from appstore import Store_handler
 from asyncthreader import threader
 
