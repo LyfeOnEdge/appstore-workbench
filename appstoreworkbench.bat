@@ -1,1 +1,1 @@
-python.exe "appstore.py" %*
+python.exe "appstoreworkbench.py" %*
