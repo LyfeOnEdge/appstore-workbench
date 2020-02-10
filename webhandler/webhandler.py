@@ -21,7 +21,7 @@ def download(fileURL):
 		downloadedfile, headers = urllib.request.urlretrieve(fileURL)
 		print(headers)
 		filename = headers["Content-Disposition"].split("filename=",1)[1]
-		downloadlocation = os.path.join(locations.downloadsfolder,filename)
+		downloadlocation = os.path.join("downloads",filename)
 		shutil.move(downloadedfile, downloadlocation)
 		print("downloaded {} from url {}".format(filename, fileURL))
 		return filename
