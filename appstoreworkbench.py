@@ -48,6 +48,7 @@ from webhandler import getJson, getCachedJson
 from github_updater import updater
 from settings_tool import settings
 from pages import pagelist
+import config
 
 folders_to_init = ["cache", "cache/json", "cache/images", "downloads"]
 for folder in folders_to_init:
@@ -142,7 +143,7 @@ if not parsed_args:
     # Launch normally, get updated repo file
     print("Getting updated homebrew repository file")
     packages_json = getJson(
-        "repo", "https://www.switchbru.com/appstore/repo.json")
+        "repo", config.REPO_JSON_URL)
     if not packages_json:
         print("Failed to download packages json repo file, falling back on cached version")
 else:

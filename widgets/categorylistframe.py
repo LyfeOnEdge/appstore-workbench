@@ -135,6 +135,8 @@ class categorylistFrame(tk.Frame):
                 installed_packages = self.appstore_handler.get_packages(silent = True)
 
                 for package in packages:
+                    if not package:
+                        continue
                     self.package_listbox.insert('end', package["name"])
                     self.title_listbox.insert('end', package["title"])
                     self.author_listbox.insert('end', package["author"])
