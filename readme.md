@@ -18,7 +18,7 @@ One of the main goals of this app is to provide a homebrew management tool that 
 - Homebrew for both WiiU and Nintendo Switch
 - Dynamic Search
 - Categories
-- Downloading directly from the switchbru/4tu site
+- Downloading directly from the switchbru/4TU site
 - Compatible with the Homebrew Appstore package manager
 - Easily open project pages
 - Threaded operations mean the app stays responsive with big downloads
@@ -64,11 +64,12 @@ One of the main goals of this app is to provide a homebrew management tool that 
 # How to use:
 - Connect your SD card to your computer
 - Start the app
+- If you are using a console other than the Nintendo Switch go to the settings menu and select you console and restart the app for your changes to take effect.
 - Click the "Select SD root" button
 - A file dialog should appear, select the root of your SD card
 - Select an app you'd like to see more about
 - Click install to have the app properly installed on to the SD card
-- When you're done, unmount your SD card, put it in your homebrewed Nintendo Switch, and reboot.
+- When you're done, unmount your SD card, put it in your homebrewed Nintendo Switch or WiiU, and reboot.
 
 ### Troubleshooting:
 - If you are getting errors about tkinter or pillow look above at the setup instructions for your OS
