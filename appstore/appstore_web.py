@@ -1,16 +1,20 @@
 #Some basic scripts for grabbing icon and screenshot for packages using the appstore site.
 #Copyright LyfeOnEdge 2019
 #Licensed under GPL3
-import sys, os
-
+import os
+import sys
 import urllib.request 
+
+import config
+
 opener = urllib.request.build_opener()
 opener.addheaders = [('User-agent', 'Mozilla/5.0')]
 urllib.request.install_opener(opener)
 
-APPSTORE_URL = "https://www.switchbru.com/appstore/{}"
+BASE_URL = config.REPO_URL
+APPSTORE_URL = "{}appstore/{}".format(BASE_URL, "{}")
 IMAGE_BASE_URL = APPSTORE_URL.format("packages/{}/{}")
-APPSTORE_PACKAGE_URL = "https://www.switchbru.com/appstore/zips/{}.zip"
+APPSTORE_PACKAGE_URL = "{}appstore/zips/{}.zip".format(BASE_URL, "{}")
 
 DOWNLOADSFOLDER = "downloads"
 
