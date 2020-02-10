@@ -32,15 +32,15 @@ One of the main goals of this app is to provide a homebrew management tool that 
 ##### Windows:
 - Extract appstore-workbench.zip
 - Install [python](https://www.python.org/downloads/release/python-373/)
- - You *must* restart your pc after installing python for the first time.
- - If you do a custom installation remember to install tcl/tk, add python to the path, and include pip
+  - You *must* restart your pc after installing python for the first time.
+  - If you do a custom installation remember to install tcl/tk, add python to the path, and include pip
 - In a command prompt navigate to the dir you extracted the app to and type ```pip install -r requirements``` to install dependencies
 - Double-click appstoreworkbench.bat
 
 ##### Macintosh:
 - Extract appstore-workbench.zip
 - Mac users may already have a compatible version of python installed, try double-clicking appstoreworkbench.py
---If the file opens in a text reader, close the reader and right-click the file and open it with pylauncher
+  - If the file opens in a text reader, close the reader and right-click the file and open it with pylauncher
 - If this still doesn't work, install [python](https://www.python.org/downloads/release/python-373/)
 - __To run the app: double-click unofficial-appstore.py__
 
@@ -48,16 +48,16 @@ One of the main goals of this app is to provide a homebrew management tool that 
 - Extract appstore-workbench.zip
 - Navigate to the directory in a terminal
 - Type `python appstoreworkbench.py`
- - If you are missing dependencies do the following:
- - `sudo apt install python3 python3-pip python3-tk python3-pil.imagetk`
+  - If you are missing dependencies do the following:
+  - `sudo apt install python3 python3-pip python3-tk python3-pil.imagetk`
 - If you don't know how to do this you should probably be using Windows.
 
 ## Trouble Shooting:
 ##### Mac:
 - Error:
- - ```ssl.SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1056)```
+  - ```ssl.SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1056)```
 - Solution:
- - Macintosh HD > Applications > Python3.6 folder (or whatever version of python you're using) > double click on "Install Certificates.command" file
+  - Macintosh HD > Applications > Python3.6 folder (or whatever version of python you're using) > double click on "Install Certificates.command" file
 
 # How to use:
 - Connect your SD card to your computer
@@ -74,9 +74,9 @@ One of the main goals of this app is to provide a homebrew management tool that 
 
 ## Special Thanks:
 - pwscind
- - Answered all sorts of questions about the appstore repos
+  - Answered all sorts of questions about the appstore repos
 - vgmoose
- - <3
+  - <3
 - The rest of the 4TU team
 - CrafterPika
- - Helped me get the app working with the WiiU since I don't have a one.
+  - Helped me get the app working with the WiiU since I don't have a one.
