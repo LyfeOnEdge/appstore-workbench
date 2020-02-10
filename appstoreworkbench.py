@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-version = "2.0"
+version = "2.1"
 version_string = f"Appstore Workbench {version}"
 
 import os
