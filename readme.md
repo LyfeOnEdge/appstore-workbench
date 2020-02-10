@@ -1,5 +1,5 @@
 # About
-Appstore-workbench - A wip tool for switch devs
+Appstore-workbench - A wip tool for Nintendo Switch and WiiU users
 
 [![Appstore-workbench](https://raw.githubusercontent.com/LyfeOnEdge/appstore-workbench/master/docu/main.png)]()
 
@@ -10,7 +10,7 @@ A desktop gui for the Homebrew Appstore written in python.
 
 Uses the switchbru/4TU team's site as a backend for image and package downloads.
 
-One of the main goals of this app is to provide a homebrew management tool that doesn't require the switch to access the internet. Especially useful for people who always keep their switch in airplane mode. 
+One of the main goals of this app is to provide a homebrew management tool that doesn't require the Nintendo Switch / WiiU to access the internet. Especially useful for people who always keep their switch in airplane mode. 
 
 #### Features:
  - Dynamic Search
@@ -71,4 +71,4 @@ One of the main goals of this app is to provide a homebrew management tool that 
 
 ##### Want to contribute? Have ideas? Questions? Great!
 You can find me here: 
-**[Switch Tools](https://discord.gg/de7tdqe)**
+![[Brew Tools](https://discord.gg/de7tdqe)(https://github.com/LyfeOnEdge/appstore-workbench/blob/master/docu/SwitchToolsDiscordBanner.png?raw=true)]**
