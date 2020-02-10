@@ -70,5 +70,6 @@ One of the main goals of this app is to provide a homebrew management tool that 
  - Image download errors are to be expected, please do not report them.
 
 ##### Want to contribute? Have ideas? Questions? Great!
-You can find me here: 
+You can find me here:
+
 ![[Brew Tools](https://discord.gg/de7tdqe)](https://github.com/LyfeOnEdge/appstore-workbench/blob/master/docu/SwitchToolsDiscordBanner.png?raw=true)
