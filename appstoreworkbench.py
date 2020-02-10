@@ -41,6 +41,12 @@ except:
     input("Cannot start: Pillow module not installed, try `pip install Pillow` or consult the readme for more information. Press enter to exit program.")
     sys.exit()
 
+folders_to_init = ["cache", "cache/json", "cache/images", "downloads"]
+for folder in folders_to_init:
+    if not os.path.isdir(folder):
+        print(f"Initializing folder {folder}")
+        os.mkdir(folder)
+
 # Import local modules
 from widgets import frameManager
 from appstore import Parser, appstore_handler, getPackageIcon
@@ -49,12 +55,6 @@ from github_updater import updater
 from settings_tool import settings
 from pages import pagelist
 import config
-
-folders_to_init = ["cache", "cache/json", "cache/images", "downloads"]
-for folder in folders_to_init:
-    if not os.path.isdir(folder):
-        print(f"Initializing folder {folder}")
-        os.mkdir(folder)
 
 print("Checking for updates...")
 if updater.check_for_update(version):

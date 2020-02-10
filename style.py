@@ -1,3 +1,7 @@
+if __name__ == "__main__":
+	sys.exit("This file was not meant to be run, try running appstoreworkbench.py")
+
+
 #Spacing
 sidecolumnwidth = 220
 bannerheight = sidecolumnwidth

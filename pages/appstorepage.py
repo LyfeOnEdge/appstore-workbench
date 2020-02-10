@@ -9,6 +9,7 @@ from asyncthreader import threader
 from .yesnopage import yesnoPage
 from .settingspage import settingsPage
 from .exitpage import exitPage
+import config
 
 sort_option_default = "Sort: Default"
 sort_option_package_name_ascending = "Name A -> Z"
@@ -117,8 +118,6 @@ class appstorePage(activeFrame):
 		advanced_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.advanced)
 		emus_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.emus)
 		games_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.games)
-		themes_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.themes)
-		legacy_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.legacy)
 		installed_frame = installedcategorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.all)
 		# help_frame = helpFrame(self.content_stacking_frame)
 		# about_frame = aboutFrame(self.content_stacking_frame)
@@ -126,7 +125,7 @@ class appstorePage(activeFrame):
 		settings_frame = settingsPage(self.content_stacking_frame, self.controller)
 		exit_frame = exitPage(self.content_stacking_frame, self.controller)
 
-		self.category_frames = [all_frame,tools_frame,advanced_frame,emus_frame,games_frame,themes_frame,legacy_frame,installed_frame]
+		self.category_frames = [all_frame,tools_frame,advanced_frame,emus_frame,games_frame,installed_frame]
 
 		self.frames = [
 			{
@@ -149,42 +148,71 @@ class appstorePage(activeFrame):
 			"frame" : games_frame,
 			"text" : "Games"
 			},
-			{
-			"frame" : themes_frame,
-			"text" : "Themes"
-			},
-			{
-			"frame" : legacy_frame,
-			"text" : "Legacy"
-			},
-			{
-			"frame" : installed_frame,
-			"text" : "Installed"
-			},
-			# {
-			# "frame" : help_frame,
-			# "text" : "HELP"
-			# },
-			# {
-			# "frame" : about_frame,
-			# "text" : "ABOUT"
-			# },
-			# {
-			# "frame" : readme_frame,
-			# "text" : "README",
-			# },
-			{
-			"frame" : settings_frame,
-			"text" : "SETTINGS"
-			},
-			{
-			"frame" : exit_frame,
-			"text" : "EXIT"
-			}
 		]
+
+		if config.CONSOLE == "Switch":
+			legacy_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.legacy)
+			themes_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.themes)
+			self.category_frames.append(legacy_frame)
+			self.category_frames.append(themes_frame)
+			self.frames.extend(
+				[
+					{
+					"frame" : themes_frame,
+					"text" : "Themes"
+					},
+					{
+					"frame" : legacy_frame,
+					"text" : "Legacy"
+					},
+				]
+			)
+		elif config.CONSOLE == "WiiU":
+			misc_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.misc)
+			self.category_frames.append(misc_frame)
+			self.frames.extend(
+				[
+					{
+					"frame" : misc_frame,
+					"text" : "Misc"
+					},
+				]
+			)
+		else:
+			pass
+
+		self.frames.extend(
+			[
+				{
+				"frame" : installed_frame,
+				"text" : "Installed"
+				},
+				# {
+				# "frame" : help_frame,
+				# "text" : "HELP"
+				# },
+				# {
+				# "frame" : about_frame,
+				# "text" : "ABOUT"
+				# },
+				# {
+				# "frame" : readme_frame,
+				# "text" : "README",
+				# },
+				{
+				"frame" : settings_frame,
+				"text" : "SETTINGS"
+				},
+				{
+				"frame" : exit_frame,
+				"text" : "EXIT"
+				}
+			]
+		)
 
 		self.all_frames = []
 		self.content_frames = {}
+
 		def make_frames_and_add_to_list(frame_list, listbox):
 			for f in frame_list:
 				page_name = f["text"]

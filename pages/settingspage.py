@@ -6,6 +6,7 @@ import style
 from .yesnopage import yesnoPage
 from .usermessagepage import usermessagePage
 from settings_tool import settings
+import config
 
 class customOptionMenu(tk.OptionMenu):
 	def __init__(self, frame, opts):
@@ -28,6 +29,12 @@ class settingsPage(tk.Frame):
 
 		self.settings_page_header = ThemedLabel(self, text = "Most settings will not take effect until next launch", background = style.color_2, font = style.mediumboldtext)
 		self.settings_page_header.place(y = style.offset, x = style.offset, height = style.buttonsize - 2 * style.offset, relwidth = 1, width = - 2 * style.offset)
+
+		consoles = [config.WIIU, config.SWITCH]
+		self.console_dropdown = customOptionMenu(self, consoles)
+		self.console_dropdown.place(y = 1 * (style.offset + style.buttonsize), x = style.offset, height = style.buttonsize - 2 * style.offset, width = 200 - style.offset)
+		self.console_dropdown_label = ThemedLabel(self, text = "~ Console\n(Needs restart)", background = style.color_2)
+		self.console_dropdown_label.place(y = 1 * (style.offset + style.buttonsize), x = 200 + style.offset, height = style.buttonsize - 2 * style.offset, width = 401)
 		
 		thread_levels = [x for x in range(1,17)]
 		self.gui_threads_dropdown = customOptionMenu(self, thread_levels)
@@ -64,6 +71,7 @@ class settingsPage(tk.Frame):
 		self.okpage = usermessagePage(self)
 
 	def configure(self, event):
+		self.console_dropdown.option.set(self.settings.get_setting("console"))
 		self.maximized_on_launch_dropdown.option.set(self.settings.get_setting("maximized"))
 		self.topmost_dropdown.option.set(self.settings.get_setting("keep_topmost"))
 		self.borderless_dropdown.option.set(self.settings.get_setting("borderless"))
@@ -71,6 +79,7 @@ class settingsPage(tk.Frame):
 
 	def save(self):
 		try:
+			self.settings.set_setting("console", self.console_dropdown.option.get())
 			self.settings.set_setting("maximized", self.maximized_on_launch_dropdown.option.get())
 			self.settings.set_setting("keep_topmost", self.topmost_dropdown.option.get())
 			self.settings.set_setting("borderless", self.borderless_dropdown.option.get())

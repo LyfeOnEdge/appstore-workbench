@@ -4,6 +4,7 @@
 
 import json
 import asyncio
+import config
 #python object to hold appstore repo
 class parser(object):
     def __init__(self):

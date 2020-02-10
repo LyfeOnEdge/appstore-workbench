@@ -4,5 +4,6 @@
     "maximized": "windowed",
     "keep_topmost": "false",
     "borderless": "false",
-    "gui_threads": "8"
+    "gui_threads": "8",
+    "console" : "Switch"
 }

@@ -9,9 +9,10 @@ import shutil
 import json
 from zipfile import ZipFile
 from .appstore_web import getPackage
+import config
 
 # Standard path to find the appstore at
-PACKAGES_DIR = "switch/appstore/.get/packages"
+LIBGET_DIR = config.LIBGET_DIR
 # Name of package info file
 PACKAGE_INFO = "info.json"
 # Name of pagkade manifest file
@@ -30,7 +31,7 @@ class appstore_handler(object):
         if not self.check_path():
             return warn_path_not_set()
         # Append package name to packages directory
-        packagesdir = os.path.join(self.base_install_path, PACKAGES_DIR)
+        packagesdir = os.path.join(self.base_install_path, LIBGET_DIR)
         try:
             return os.path.isdir(packagesdir)
         except:
@@ -40,7 +41,7 @@ class appstore_handler(object):
         if not self.check_path():
             return warn_path_not_set()
         if not self.check_if_get_init():
-            packagesdir = os.path.join(self.base_install_path, PACKAGES_DIR)
+            packagesdir = os.path.join(self.base_install_path, LIBGET_DIR)
             os.makedirs(packagesdir)
             return True
         else:
@@ -110,7 +111,7 @@ class appstore_handler(object):
         print(f"Beginning install for package {package_name}")
 
         # Append base directory to packages directory
-        packagesdir = os.path.join(self.base_install_path, PACKAGES_DIR)
+        packagesdir = os.path.join(self.base_install_path, LIBGET_DIR)
         if not os.path.isdir(packagesdir):
             os.makedirs(packagesdir)
         # Append package folder to packages directory
@@ -239,7 +240,7 @@ class appstore_handler(object):
         do_progress_function(install_message, 50)
 
         # Append base directory to packages directory
-        packagesdir = os.path.join(self.base_install_path, PACKAGES_DIR)
+        packagesdir = os.path.join(self.base_install_path, LIBGET_DIR)
         if not os.path.isdir(packagesdir):
             os.makedirs(packagesdir)
         # Append package folder to packages directory
@@ -343,7 +344,6 @@ class appstore_handler(object):
                     if not os.listdir(file):
                         os.rmdir(file)
                         print(f"removed empty directory {file}")
-
         self.remove_store_entry(package_name)
 
         print(f"Uninstalled package {package_name}")
@@ -359,7 +359,7 @@ class appstore_handler(object):
         if not self.check_path():
             return warn_path_not_set()
         # Append package name to packages directory
-        pacdir = os.path.join(PACKAGES_DIR, package_name)
+        pacdir = os.path.join(LIBGET_DIR, package_name)
         # Append base directory to packages directory
         packagedir = os.path.join(self.base_install_path, pacdir)
         try:
@@ -375,7 +375,7 @@ class appstore_handler(object):
         if not self.check_path():
             return
         # Append package name to packages directory
-        pacdir = os.path.join(PACKAGES_DIR, package_name)
+        pacdir = os.path.join(LIBGET_DIR, package_name)
         # Append base directory to packages directory
         packagedir = os.path.join(self.base_install_path, pacdir)
         # Append package loc to info file name
@@ -411,12 +411,11 @@ class appstore_handler(object):
         if not self.check_path():
             return warn_path_not_set()
         # Append package name to packages directory
-        pacdir = os.path.join(PACKAGES_DIR, package_name)
+        pacdir = os.path.join(LIBGET_DIR, package_name)
         # Append base directory to packages directory
         packagedir = os.path.join(self.base_install_path, pacdir)
         # Append package loc to manifest file name
         manifestfile = os.path.join(packagedir, PACKAGE_MANIFEST)
-        print(manifestfile)
         if not os.path.isfile(manifestfile):
             print("couldn't find manifest")
             return
@@ -428,21 +427,21 @@ class appstore_handler(object):
                 fl = fileline.replace(MANIFEST_PREFIX, "")
                 fl = fl.strip().replace("\n", "")
                 mf.append(os.path.join(self.base_install_path, fl))
-
+                print(fl)
         return mf
 
 
     def get_packages(self, silent=False):
         if not self.check_path():
             return warn_path_not_set()
-        packagedir = os.path.join(self.base_install_path, PACKAGES_DIR)
+        packagedir = os.path.join(self.base_install_path, LIBGET_DIR)
 
         if os.path.isdir(packagedir):
-            packages_dir_items = os.listdir(packagedir)
+            LIBGET_DIR_items = os.listdir(packagedir)
 
             packages = []
             # Go through items in packages dir
-            for possible_package in packages_dir_items:
+            for possible_package in LIBGET_DIR_items:
                 # Find the path of the package
                 pathed_package = os.path.join(packagedir, possible_package)
                 package_json = os.path.join(pathed_package, PACKAGE_INFO)
@@ -460,8 +459,8 @@ class appstore_handler(object):
     def edit_info(self, package_name: str, key: str, value):
         if not self.check_path():
             return warn_path_not_set()
-        packagedir = os.path.join(self.base_install_path, PACKAGES_DIR)
-        packagesdir = os.path.join(self.base_install_path, PACKAGES_DIR)
+        packagedir = os.path.join(self.base_install_path, LIBGET_DIR)
+        packagesdir = os.path.join(self.base_install_path, LIBGET_DIR)
         packagedir = os.path.join(packagesdir, package_name)
         pkg = os.path.join(packagedir, PACKAGE_INFO)
 
