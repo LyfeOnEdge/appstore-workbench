@@ -4,12 +4,18 @@ import tkinter as tk
 import style as style
 from widgets import ThemedFrame, ThemedListbox, ThemedLabel, searchBox, activeFrame, scrolledText, button, categorylistFrame, installedcategorylistFrame
 from github_updater import updater
-from appstore import Parser, Store_handler
 from asyncthreader import threader
 from .yesnopage import yesnoPage
 from .settingspage import settingsPage
 from .exitpage import exitPage
 import config
+
+if config.CONSOLE in ["WiiU", "Switch"]:
+    from appstore import Parser, Store_handler
+elif config.CONSOLE == "Wii":
+    from wiiappstore import Parser, Store_handler
+else:
+    raise "Invalid console"
 
 sort_option_default = "Sort: Default"
 sort_option_package_name_ascending = "Name A -> Z"
@@ -115,7 +121,7 @@ class appstorePage(activeFrame):
 
 		all_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.all)
 		tools_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.tools)
-		advanced_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.advanced)
+		
 		emus_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.emus)
 		games_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.games)
 		installed_frame = installedcategorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.all)
@@ -125,7 +131,7 @@ class appstorePage(activeFrame):
 		settings_frame = settingsPage(self.content_stacking_frame, self.controller)
 		exit_frame = exitPage(self.content_stacking_frame, self.controller)
 
-		self.category_frames = [all_frame,tools_frame,advanced_frame,emus_frame,games_frame,installed_frame]
+		self.category_frames = [all_frame,tools_frame,emus_frame,games_frame,installed_frame]
 
 		self.frames = [
 			{
@@ -136,10 +142,7 @@ class appstorePage(activeFrame):
 			"frame" : tools_frame,
 			"text" : "Tools"
 			},
-			{
-			"frame" : advanced_frame,
-			"text" : "Advanced Homebrew"
-			},
+			
 			{
 			"frame" : emus_frame,
 			"text" : "Emulators"
@@ -150,24 +153,7 @@ class appstorePage(activeFrame):
 			},
 		]
 
-		if config.CONSOLE == "Switch":
-			legacy_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.legacy)
-			themes_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.themes)
-			self.category_frames.append(legacy_frame)
-			self.category_frames.append(themes_frame)
-			self.frames.extend(
-				[
-					{
-					"frame" : themes_frame,
-					"text" : "Themes"
-					},
-					{
-					"frame" : legacy_frame,
-					"text" : "Legacy"
-					},
-				]
-			)
-		elif config.CONSOLE == "WiiU":
+		if config.CONSOLE == "Wii":
 			misc_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.misc)
 			self.category_frames.append(misc_frame)
 			self.frames.extend(
@@ -178,8 +164,50 @@ class appstorePage(activeFrame):
 					},
 				]
 			)
+		elif config.CONSOLE == "Switch":
+			legacy_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.legacy)
+			themes_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.themes)
+			advanced_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.advanced)
+			self.category_frames.append(legacy_frame)
+			self.category_frames.append(themes_frame)
+			self.category_frames.append(advanced_frame)
+			self.frames.extend(
+				[
+					{
+					"frame" : advanced_frame,
+					"text" : "Advanced Homebrew"
+					},
+					{
+					"frame" : themes_frame,
+					"text" : "Themes"
+					},
+					{
+					"frame" : legacy_frame,
+					"text" : "Legacy"
+					},
+					
+				]
+			)
+		elif config.CONSOLE == "WiiU":
+			misc_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.misc)
+			advanced_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.advanced)
+			self.category_frames.append(misc_frame)
+			self.category_frames.append(advanced_frame)
+			self.frames.extend(
+				[
+					{
+					"frame" : advanced_frame,
+					"text" : "Advanced Homebrew"
+					},
+					{
+					"frame" : misc_frame,
+					"text" : "Misc"
+					},
+					
+				]
+			)
 		else:
-			pass
+			raise "Invalid Console"
 
 		self.frames.extend(
 			[

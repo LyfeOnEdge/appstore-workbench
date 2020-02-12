@@ -34,7 +34,7 @@ except Exception as e:
 print(TKVERSION)
 
 # This is called before the below module imports to ensure no exception is
-# encountered trying to import pil after stuff has loaded
+# encountered trying to import pil
 try:
     import PIL  # Import pillow library
 except:
@@ -49,12 +49,18 @@ for folder in folders_to_init:
 
 # Import local modules
 from widgets import frameManager
-from appstore import Parser, appstore_handler, getPackageIcon
 from webhandler import getJson, getCachedJson
 from github_updater import updater
 from settings_tool import settings
 from pages import pagelist
 import config
+
+if config.CONSOLE in ["WiiU", "Switch"]:
+    from appstore import Parser
+elif config.CONSOLE == "Wii":
+    from wiiappstore import Parser
+else:
+    raise "Invalid console"
 
 print("Checking for updates...")
 if updater.check_for_update(version):

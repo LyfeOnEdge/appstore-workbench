@@ -2,13 +2,19 @@ import os
 import tkinter as tk
 import tkinter.filedialog
 from widgets import ThemedFrame, ThemedLabel, ThemedListbox, activeFrame, scrolledText, button, tooltip, ScrolledThemedListBox, progressFrame
-from appstore import Parser, Store_handler
 import style
-from appstore import getScreenImage
 from webhandler import opentab
 from .yesnopage import yesnoPage
 from asyncthreader import threader
 from PIL import Image, ImageTk
+import config
+
+if config.CONSOLE in ["WiiU", "Switch"]:
+    from appstore import Parser, Store_handler, getScreenImage
+elif config.CONSOLE == "Wii":
+    from wiiappstore import Parser, Store_handler, getScreenImage
+else:
+    raise "Invalid console"
 
 class detailPage(activeFrame):
     def __init__(self, parent, controller):

@@ -4,8 +4,15 @@ from PIL import Image, ImageTk
 from timeit import default_timer as timer
 import style
 from widgets import ThemedLabel, ThemedListbox
-from appstore import Store_handler
 from asyncthreader import threader
+import config
+
+if config.CONSOLE in ["WiiU", "Switch"]:
+    from appstore import Store_handler
+elif config.CONSOLE == "Wii":
+    from wiiappstore import Store_handler
+else:
+    raise "Invalid console"
 
 class categorylistFrame(tk.Frame):
     def __init__(self,parent,controller,framework, packages):
