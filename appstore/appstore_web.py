@@ -12,9 +12,9 @@ opener.addheaders = [('User-agent', 'Mozilla/5.0')]
 urllib.request.install_opener(opener)
 
 BASE_URL = config.REPO_URL
-APPSTORE_URL = "{}appstore/{}".format(BASE_URL, "{}")
+APPSTORE_URL = "{}{}".format(BASE_URL, "{}")
 IMAGE_BASE_URL = APPSTORE_URL.format("packages/{}/{}")
-APPSTORE_PACKAGE_URL = "{}appstore/zips/{}.zip".format(BASE_URL, "{}")
+APPSTORE_PACKAGE_URL = "{}zips/{}.zip".format(BASE_URL, "{}")
 
 DOWNLOADSFOLDER = "downloads"
 

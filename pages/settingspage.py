@@ -30,7 +30,7 @@ class settingsPage(tk.Frame):
 		self.settings_page_header = ThemedLabel(self, text = "Most settings will not take effect until next launch", background = style.color_2, font = style.mediumboldtext)
 		self.settings_page_header.place(y = style.offset, x = style.offset, height = style.buttonsize - 2 * style.offset, relwidth = 1, width = - 2 * style.offset)
 
-		consoles = [config.WIIU, config.SWITCH]
+		consoles = [config.WII, config.WIIU, config.SWITCH]
 		self.console_dropdown = customOptionMenu(self, consoles)
 		self.console_dropdown.place(y = 1 * (style.offset + style.buttonsize), x = style.offset, height = style.buttonsize - 2 * style.offset, width = 200 - style.offset)
 		self.console_dropdown_label = ThemedLabel(self, text = "~ Console\n(Needs restart)", background = style.color_2)
@@ -58,11 +58,6 @@ class settingsPage(tk.Frame):
 		self.borderless_dropdown_label = ThemedLabel(self, text = "~ Borderless window (broken on some systems)", background = style.color_2)
 		self.borderless_dropdown_label.place(y = 5 * (style.offset + style.buttonsize), x = 200 + style.offset, height = style.buttonsize - 2 * style.offset, width = 401)
 
-		self.clear_cache_button = button(self, callback=self.clear_cache,text_string="- clear cache -",background=style.color_1, font = style.smalltext)
-		self.clear_cache_button.place(y = 6 * (style.offset + style.buttonsize), x = style.offset, height = style.buttonsize - 2 * style.offset, width = 200 - style.offset)
-		self.clear_cache_label = ThemedLabel(self, text = "~ Clear image and json cache?", background = style.color_2)
-		self.clear_cache_label.place(y = 6 * (style.offset + style.buttonsize), x = 200 + style.offset, height = style.buttonsize - 2 * style.offset, width = 401)
-
 		self.savebutton = button(self, callback=self.save,text_string="Save",background=style.color_1)
 		self.savebutton.place(relx=0.5, x = - 0.5 * style.sidecolumnwidth, width = style.sidecolumnwidth, height = style.buttonsize, rely = 1, y = - (style.offset + style.buttonsize))
 		#Bind frame raise
@@ -88,11 +83,3 @@ class settingsPage(tk.Frame):
 			self.okpage.telluser("Settings saved successfully")
 		except Exception as e:
 			self.okpage.telluser("Failed to save settings\n{}".format(e))
-
-	def clear_cache(self):
-		self.yesno.getanswer("Are you sure you'd like to clear the cache?", self.do_clear_cache)
-
-	def do_clear_cache(self):
-		for root, dirs, files in os.walk('cache', topdown=False):
-			for f in files:
-				os.remove(os.path.join(root, f))

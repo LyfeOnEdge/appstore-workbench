@@ -1,12 +1,5 @@
 from .categorylistframe import categorylistFrame
-import config
-
-if config.CONSOLE in ["WiiU", "Switch"]:
-    from appstore import Parser, Store_handler
-elif config.CONSOLE == "Wii":
-    from wiiappstore import Parser, Store_handler
-else:
-    raise "Invalid console"
+from appstore import Parser, Store_handler
 
 class installedcategorylistFrame(categorylistFrame):
     def __init__(self,parent,controller,framework, packages):

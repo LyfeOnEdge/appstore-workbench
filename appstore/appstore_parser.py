@@ -4,15 +4,13 @@
 
 import json
 import asyncio
-import config
+
 #python object to hold appstore repo
 class parser(object):
     def __init__(self):
         self.init()
     
     def init(self):
-        self.blacklisted_categories_list = []
-
         self.all = []
         self.advanced = []
         self.emus = []
@@ -32,18 +30,12 @@ class parser(object):
             "theme" : self.themes,
             "tool" : self.tools,
             "_misc" : self.misc,
+            "media" : self.misc,
             "misc" : self.misc,
             "legacy" : self.legacy,
         }
 
         self.list_list = [self.all, self.advanced, self.emus, self.games, self.loaders, self.themes, self.tools, self.misc, self.legacy]
-
-    #Allows you to prevent certain categories in the map from being added to self.all[]
-    def blacklist_categories(self, categories_list):
-        self.blacklisted_categories_list = categories_list
-
-    def clear_blacklist(self):
-        self.blacklisted_categories_list = []
 
     def clear(self):
         self.init()
@@ -57,12 +49,6 @@ class parser(object):
             with open(repo_json, encoding="utf-8") as repojson:
                 self.all = json.load(repojson)["packages"]
             self.sort()
-            if self.blacklisted_categories_list:
-                for entry in self.all:
-                    for category in self.blacklisted_categories_list:
-                        if entry in self.map[category]:
-                            self.all.remove(entry)
-                            break
         except Exception as e:
             print(f"Exception loading appstore json {e}")
         num_entries = len(self.all)
@@ -75,12 +61,6 @@ class parser(object):
         self.clear()
         self.all = repo_json["packages"]
         self.sort()
-        if self.blacklisted_categories_list:
-            for entry in self.all:
-                for category in self.blacklisted_categories_list:
-                    if entry in self.map[category]:
-                        self.all.remove(entry)
-                        break
         num_entries = len(self.all)
         print(f"Loaded {num_entries} appstore entries")
 

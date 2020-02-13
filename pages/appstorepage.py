@@ -2,6 +2,7 @@ import os, sys
 import tkinter.filedialog
 import tkinter as tk
 import style as style
+from appstore import Parser, Store_handler
 from widgets import ThemedFrame, ThemedListbox, ThemedLabel, searchBox, activeFrame, scrolledText, button, categorylistFrame, installedcategorylistFrame
 from github_updater import updater
 from asyncthreader import threader
@@ -9,13 +10,6 @@ from .yesnopage import yesnoPage
 from .settingspage import settingsPage
 from .exitpage import exitPage
 import config
-
-if config.CONSOLE in ["WiiU", "Switch"]:
-    from appstore import Parser, Store_handler
-elif config.CONSOLE == "Wii":
-    from wiiappstore import Parser, Store_handler
-else:
-    raise "Invalid console"
 
 sort_option_default = "Sort: Default"
 sort_option_package_name_ascending = "Name A -> Z"
@@ -153,7 +147,7 @@ class appstorePage(activeFrame):
 			},
 		]
 
-		if config.CONSOLE == "Wii":
+		if config.CONSOLE == config.WII:
 			misc_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.misc)
 			self.category_frames.append(misc_frame)
 			self.frames.extend(
@@ -164,7 +158,7 @@ class appstorePage(activeFrame):
 					},
 				]
 			)
-		elif config.CONSOLE == "Switch":
+		elif config.CONSOLE == config.SWITCH:
 			legacy_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.legacy)
 			themes_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.themes)
 			advanced_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.advanced)
@@ -188,7 +182,7 @@ class appstorePage(activeFrame):
 					
 				]
 			)
-		elif config.CONSOLE == "WiiU":
+		elif config.CONSOLE == config.WIIU:
 			misc_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.misc)
 			advanced_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.advanced)
 			self.category_frames.append(misc_frame)

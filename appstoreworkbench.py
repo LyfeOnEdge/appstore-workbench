@@ -53,14 +53,8 @@ from webhandler import getJson, getCachedJson
 from github_updater import updater
 from settings_tool import settings
 from pages import pagelist
+from appstore import Parser
 import config
-
-if config.CONSOLE in ["WiiU", "Switch"]:
-    from appstore import Parser
-elif config.CONSOLE == "Wii":
-    from wiiappstore import Parser
-else:
-    raise "Invalid console"
 
 print("Checking for updates...")
 if updater.check_for_update(version):
