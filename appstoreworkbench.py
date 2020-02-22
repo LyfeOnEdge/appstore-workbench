@@ -142,6 +142,7 @@ if len(sys.argv) > 1:
 if not parsed_args:
     # Launch normally, get updated repo file
     print("Getting updated homebrew repository file")
+    print(f"Console / Repository - {config.CONSOLE}")
     packages_json = getJson(
         "repo", config.REPO_JSON_URL)
     if not packages_json:

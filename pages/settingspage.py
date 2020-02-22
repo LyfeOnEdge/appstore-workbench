@@ -21,6 +21,9 @@ class customOptionMenu(tk.OptionMenu):
 
 truefalse_options = [ "true", "false"]
 
+dropdown_width = 400
+label_width = 200
+
 class settingsPage(tk.Frame):
 	def __init__(self, parent, controller):
 		tk.Frame.__init__(self,parent,background=style.color_2)
@@ -30,33 +33,33 @@ class settingsPage(tk.Frame):
 		self.settings_page_header = ThemedLabel(self, text = "Most settings will not take effect until next launch", background = style.color_2, font = style.mediumboldtext)
 		self.settings_page_header.place(y = style.offset, x = style.offset, height = style.buttonsize - 2 * style.offset, relwidth = 1, width = - 2 * style.offset)
 
-		consoles = [config.WII, config.WIIU, config.SWITCH]
+		consoles = [config.WII, config.WII_OSC, config.WIIU, config.SWITCH]
 		self.console_dropdown = customOptionMenu(self, consoles)
-		self.console_dropdown.place(y = 1 * (style.offset + style.buttonsize), x = style.offset, height = style.buttonsize - 2 * style.offset, width = 200 - style.offset)
-		self.console_dropdown_label = ThemedLabel(self, text = "~ Console\n(Needs restart)", background = style.color_2)
-		self.console_dropdown_label.place(y = 1 * (style.offset + style.buttonsize), x = 200 + style.offset, height = style.buttonsize - 2 * style.offset, width = 401)
+		self.console_dropdown.place(y = 1 * (style.offset + style.buttonsize), x = style.offset, height = style.buttonsize - 2 * style.offset, width = dropdown_width - style.offset)
+		self.console_dropdown_label = ThemedLabel(self, text = "~ Console - Repo\n(Needs restart)", background = style.color_2)
+		self.console_dropdown_label.place(y = 1 * (style.offset + style.buttonsize), x = dropdown_width + style.offset, height = style.buttonsize - 2 * style.offset, width = label_width)
 		
 		thread_levels = [x for x in range(1,17)]
 		self.gui_threads_dropdown = customOptionMenu(self, thread_levels)
-		self.gui_threads_dropdown.place(y = 2 * (style.offset + style.buttonsize), x = style.offset, height = style.buttonsize - 2 * style.offset, width = 200 - style.offset)
+		self.gui_threads_dropdown.place(y = 2 * (style.offset + style.buttonsize), x = style.offset, height = style.buttonsize - 2 * style.offset, width = dropdown_width - style.offset)
 		self.gui_threads_dropdown_label = ThemedLabel(self, text = "~ Max threads\n(No restart)", background = style.color_2)
-		self.gui_threads_dropdown_label.place(y = 2 * (style.offset + style.buttonsize), x = 200 + style.offset, height = style.buttonsize - 2 * style.offset, width = 401)
+		self.gui_threads_dropdown_label.place(y = 2 * (style.offset + style.buttonsize), x = dropdown_width + style.offset, height = style.buttonsize - 2 * style.offset, width = label_width)
 
 		maximized_options = [ "fullscreen", "maximized", "windowed"]
 		self.maximized_on_launch_dropdown = customOptionMenu(self, maximized_options)
-		self.maximized_on_launch_dropdown.place(y = 3 * (style.offset + style.buttonsize), x = style.offset, height = style.buttonsize - 2 * style.offset, width = 200 - style.offset)
+		self.maximized_on_launch_dropdown.place(y = 3 * (style.offset + style.buttonsize), x = style.offset, height = style.buttonsize - 2 * style.offset, width = dropdown_width - style.offset)
 		self.maximized_dropdown_label = ThemedLabel(self, text = "~ Maximized on launch", background = style.color_2)
-		self.maximized_dropdown_label.place(y = 3 * (style.offset + style.buttonsize), x = 200 + style.offset, height = style.buttonsize - 2 * style.offset, width = 401)
+		self.maximized_dropdown_label.place(y = 3 * (style.offset + style.buttonsize), x = dropdown_width + style.offset, height = style.buttonsize - 2 * style.offset, width = label_width)
 
 		self.topmost_dropdown = customOptionMenu(self, truefalse_options)
-		self.topmost_dropdown.place(y = 4 * (style.offset + style.buttonsize), x = style.offset, height = style.buttonsize - 2 * style.offset, width = 200 - style.offset)
+		self.topmost_dropdown.place(y = 4 * (style.offset + style.buttonsize), x = style.offset, height = style.buttonsize - 2 * style.offset, width = dropdown_width - style.offset)
 		self.topmost_dropdown_label = ThemedLabel(self, text = "~ Keep window topmost", background = style.color_2)
-		self.topmost_dropdown_label.place(y = 4 * (style.offset + style.buttonsize), x = 200 + style.offset, height = style.buttonsize - 2 * style.offset, width = 401)
+		self.topmost_dropdown_label.place(y = 4 * (style.offset + style.buttonsize), x = dropdown_width + style.offset, height = style.buttonsize - 2 * style.offset, width = label_width)
 
 		self.borderless_dropdown = customOptionMenu(self, truefalse_options)
-		self.borderless_dropdown.place(y = 5 * (style.offset + style.buttonsize), x = style.offset, height = style.buttonsize - 2 * style.offset, width = 200 - style.offset)
-		self.borderless_dropdown_label = ThemedLabel(self, text = "~ Borderless window (broken on some systems)", background = style.color_2)
-		self.borderless_dropdown_label.place(y = 5 * (style.offset + style.buttonsize), x = 200 + style.offset, height = style.buttonsize - 2 * style.offset, width = 401)
+		self.borderless_dropdown.place(y = 5 * (style.offset + style.buttonsize), x = style.offset, height = style.buttonsize - 2 * style.offset, width = dropdown_width - style.offset)
+		self.borderless_dropdown_label = ThemedLabel(self, text = "~ Borderless window\n(broken on some systems)", background = style.color_2)
+		self.borderless_dropdown_label.place(y = 5 * (style.offset + style.buttonsize), x = dropdown_width + style.offset, height = style.buttonsize - 2 * style.offset, width = label_width)
 
 		self.savebutton = button(self, callback=self.save,text_string="Save",background=style.color_1)
 		self.savebutton.place(relx=0.5, x = - 0.5 * style.sidecolumnwidth, width = style.sidecolumnwidth, height = style.buttonsize, rely = 1, y = - (style.offset + style.buttonsize))

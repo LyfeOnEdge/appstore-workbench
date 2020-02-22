@@ -147,7 +147,7 @@ class appstorePage(activeFrame):
 			},
 		]
 
-		if config.CONSOLE == config.WII:
+		if config.CONSOLE in [config.WII, config.WII_OSC]:
 			misc_frame = categorylistFrame(self.content_stacking_frame, self.controller, self, self.repo_parser.misc)
 			self.category_frames.append(misc_frame)
 			self.frames.extend(
