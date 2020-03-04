@@ -141,7 +141,7 @@ class Page(basePage.BasePage):
 ## Threading
 Also included in this project is a worker thread tool I made
 that works with tkinter (calling threads from within the gui 
-normally doesn't work). Threads must be procedural (they can't)
+normally doesn't work). Threads must be procedural (they can't
 return something), but they are incredibly useful for updating
 elements of the gui without blocking everything else.
 ##### Example Usage:
