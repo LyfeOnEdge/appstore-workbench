@@ -98,8 +98,7 @@ class Plugin(basePlugin.BasePlugin):
   def get_pages(self):
     #If your plugin does more than run in the background,
     #this function will need to return a list of pages
-    #derived from 
-    #See README section on 
+    #derived from basePage.BasePage
     return []
 
   def exit(self):
