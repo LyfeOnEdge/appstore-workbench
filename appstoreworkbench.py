@@ -34,7 +34,7 @@ except Exception as e:
 print(TKVERSION)
 
 # This is called before the below module imports to ensure no exception is
-# encountered trying to import pil
+# encountered trying to import pil after stuff has loaded
 try:
     import PIL  # Import pillow library
 except:
@@ -49,11 +49,11 @@ for folder in folders_to_init:
 
 # Import local modules
 from widgets import frameManager
+from appstore import Parser, appstore_handler, getPackageIcon
 from webhandler import getJson, getCachedJson
 from github_updater import updater
 from settings_tool import settings
 from pages import pagelist
-from appstore import Parser
 import config
 
 print("Checking for updates...")
@@ -142,7 +142,6 @@ if len(sys.argv) > 1:
 if not parsed_args:
     # Launch normally, get updated repo file
     print("Getting updated homebrew repository file")
-    print(f"Console / Repository - {config.CONSOLE}")
     packages_json = getJson(
         "repo", config.REPO_JSON_URL)
     if not packages_json:

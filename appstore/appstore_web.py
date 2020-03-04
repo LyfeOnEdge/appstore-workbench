@@ -11,11 +11,6 @@ opener = urllib.request.build_opener()
 opener.addheaders = [('User-agent', 'Mozilla/5.0')]
 urllib.request.install_opener(opener)
 
-BASE_URL = config.REPO_URL
-APPSTORE_URL = "{}{}".format(BASE_URL, "{}")
-IMAGE_BASE_URL = APPSTORE_URL.format("packages/{}/{}")
-APPSTORE_PACKAGE_URL = "{}zips/{}.zip".format(BASE_URL, "{}")
-
 DOWNLOADSFOLDER = "downloads"
 
 CACHEFOLDER = "cache"
@@ -36,59 +31,56 @@ if os.path.isdir(blacklist):
 
 SCREENBUFFER = {}
 ICONBUFFER = {}
+class appstore_webhandler:
+    def __init__(self, repo_url):
+        self.repo_url = repo_url
+        appstore_url = "{}{}".format(repo_url, "{}")
+        self.image_base_url = appstore_url.format("packages/{}/{}")
+        self.appstore_package_url = "{}zips/{}.zip".format(repo_url, "{}")
 
-def download(url,file,silent = False):
-    try:
-        urllib.request.urlretrieve(url,file)
-        return file
-    except Exception as e:
-        if not silent:
-            print("failed to download file - {} from url - {}, reason: {}".format(file, url, e)) 
-        return None
+    def download(self, url,file,silent = False):
+        try:
+            urllib.request.urlretrieve(url,file)
+            return file
+        except Exception as e:
+            if not silent:
+                print("failed to download file - {} from url - {}, reason: {}".format(file, url, e)) 
+            return None
 
-#Gets (downloads or grabs from cache) an image of a given type (icon or screenshot) for a given package
-def getImage(package, image_type, force = False):
-    path = os.path.join(os.path.join(sys.path[0], CACHEFOLDER), package.replace(":",""))
-    if not os.path.isdir(path):
-        os.mkdir(path)
+    #Gets (downloads or grabs from cache) an image of a given type (icon or screenshot) for a given package
+    def getImage(self, package, image_type, force = False):
+        path = os.path.join(os.path.join(sys.path[0], CACHEFOLDER), package.replace(":",""))
+        if not os.path.isdir(path):
+            os.mkdir(path)
 
-    image_file = os.path.join(path, image_type)
+        image_file = os.path.join(path, image_type)
 
-    if os.path.isfile(image_file) and not force:
-        return(image_file)
-    else:
-        return download(IMAGE_BASE_URL.format(package, image_type), image_file, silent = True)
+        if os.path.isfile(image_file) and not force:
+            return(image_file)
+        else:
+            return self.download(self.image_base_url.format(package, image_type), image_file, silent = True)
 
-def getPackageIcon(package, force = False):
-    if not package in ICONBLACKLIST:
-        if package in ICONBUFFER.keys():
-            return ICONBUFFER[package]
-        icon = getImage(package, ICON, force = force)
-        ICONBUFFER.update({package : icon})
-        return icon
+    def getPackageIcon(self, package, force = False):
+        if not package in ICONBLACKLIST:
+            if package in ICONBUFFER.keys():
+                return ICONBUFFER[package]
+            icon = self.getImage(package, ICON, force = force)
+            ICONBUFFER.update({package : icon})
+            return icon
 
-def getScreenImage(package, force = False):
-    if package in SCREENBUFFER.keys():
-        return SCREENBUFFER[package]
-    screen = getImage(package, SCREEN, force = force)
-    SCREENBUFFER.update({package : screen})
-    return screen
+    def getScreenImage(self, package, force = False):
+        if package in SCREENBUFFER.keys():
+            return SCREENBUFFER[package]
+        screen = self.getImage(package, SCREEN, force = force)
+        SCREENBUFFER.update({package : screen})
+        return screen
 
-#Downloads the current zip of a package
-def getPackage(package):
-    try:
-        downloadsfolder = os.path.join(sys.path[0], DOWNLOADSFOLDER)
-        packageURL = APPSTORE_PACKAGE_URL.format(package)
-        packagefile = os.path.join(downloadsfolder, "{}.zip".format(package))
-        return download(packageURL, packagefile)
-    except Exception as e:
-        print("Error getting package zip for {} - {}".format(package, e))
-
-def test(package):
-    getScreenImage(package)
-    getPackageIcon(package)
-    getPackage(package)
-
-if __name__ == "__main__":
-    #Test with the appstore
-    test("appstore")
+    #Downloads the current zip of a package
+    def getPackage(self, package):
+        try:
+            downloadsfolder = os.path.join(sys.path[0], DOWNLOADSFOLDER)
+            packageURL = self.appstore_package_url.format(package)
+            packagefile = os.path.join(downloadsfolder, "{}.zip".format(package))
+            return self.download(packageURL, packagefile)
+        except Exception as e:
+            print("Error getting package zip for {} - {}".format(package, e))

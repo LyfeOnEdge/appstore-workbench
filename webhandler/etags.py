@@ -12,9 +12,6 @@ useragent = 'Mozilla/5.0'
 #If there is an update it will update the file, if not it will return the file
 #This tool is useful for avoiding api overuse and minimizing bandwidth
 def accessETaggedFile(url, file):
-    global etag_header
-    global useragent
-
     req = urllib.request.Request(url)
     req.add_header('User-Agent', useragent)
 

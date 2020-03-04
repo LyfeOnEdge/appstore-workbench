@@ -1,4 +1,4 @@
-# Some basic scripts for installing appstore zips given the package name
+# Some basic scripts for installing libget zips given the package name
 # Loosely based on vgmoose's libget here: https://github.com/vgmoose/libget
 # Copyright LyfeOnEdge 2019
 # Licensed under GPL3
@@ -8,11 +8,8 @@ import os
 import shutil
 import json
 from zipfile import ZipFile
-from .appstore_web import getPackage
 import config
 
-# Standard path to find the appstore at
-LIBGET_DIR = config.LIBGET_DIR
 # Name of package info file
 PACKAGE_INFO = "info.json"
 # Name of pagkade manifest file
@@ -20,18 +17,21 @@ PACKAGE_MANIFEST = "manifest.install"
 # The prefix used to designate each line in the manifest
 MANIFEST_PREFIX = "U: "
 
-
-class appstore_handler(object):
-    def __init__(self):
+class libget_handler(object):
+    def __init__(self, webhandler, libget_dir):
         self.base_install_path = None
         self.packages = None
+        self.libget_dir = libget_dir
+        self.webhandler = webhandler
 
-    # Check if the appstore packages folder has been inited
-    def check_if_get_init(self):
+    # Check if the libget packages folder has been inited
+    def check_if_get_init(self, silent: bool = False):
         if not self.check_path():
-            return warn_path_not_set()
+            if not silent:
+                warn_path_not_set()
+            return
         # Append package name to packages directory
-        packagesdir = os.path.join(self.base_install_path, LIBGET_DIR)
+        packagesdir = os.path.join(self.base_install_path, self.libget_dir)
         try:
             return os.path.isdir(packagesdir)
         except:
@@ -41,11 +41,11 @@ class appstore_handler(object):
         if not self.check_path():
             return warn_path_not_set()
         if not self.check_if_get_init():
-            packagesdir = os.path.join(self.base_install_path, LIBGET_DIR)
+            packagesdir = os.path.join(self.base_install_path, self.libget_dir)
             os.makedirs(packagesdir)
             return True
         else:
-            print("Appstore packages dir already inited")
+            print("libget packages dir already inited")
 
     # Set this to a root of an sd card or in a dir to test
     def set_path(self, path: str):
@@ -64,13 +64,13 @@ class appstore_handler(object):
         return self.base_install_path
 
 
-    # Installs an appstore package
+    # Installs a libget package
     def install_package(self, package: dict, silent=False):
         if not self.check_path():
             return warn_path_not_set()
 
         if not package:
-            print("No repo entry data passed to appstore handler.")
+            print("No repo entry data passed to libget handler.")
             print("Not continuing with install")
             return
         try:
@@ -111,7 +111,7 @@ class appstore_handler(object):
         print(f"Beginning install for package {package_name}")
 
         # Append base directory to packages directory
-        packagesdir = os.path.join(self.base_install_path, LIBGET_DIR)
+        packagesdir = os.path.join(self.base_install_path, self.libget_dir)
         if not os.path.isdir(packagesdir):
             os.makedirs(packagesdir)
         # Append package folder to packages directory
@@ -120,12 +120,12 @@ class appstore_handler(object):
             os.mkdir(packagedir)
 
         # Download the package from the switchbru site
-        appstore_zip = getPackage(package_name)
-        if not appstore_zip:
+        package_zip = self.webhandler.getPackage(package_name)
+        if not package_zip:
             print(f"Failed to download zip for package {package_name}")
             return
 
-        with ZipFile(appstore_zip) as zipObj:
+        with ZipFile(package_zip) as zipObj:
             namelist = zipObj.namelist()
             # Easy check to see if info and manifest files are in the zip
             if not PACKAGE_MANIFEST in namelist:
@@ -156,15 +156,15 @@ class appstore_handler(object):
             zipObj.extract(PACKAGE_INFO, path=packagedir)
             print("Wrote package info.")
 
-        os.remove(appstore_zip)
+        os.remove(package_zip)
 
         print("Installed {} version {}".format(package["title"], version))
 
         self.reload()
 
-    #Installs an appstore package
+    #Installs a libget package
     #Paramaters:
-    #The package is a dict from the appstore json that corresponds to a libget package
+    #The package is a dict from the libget json that corresponds to a libget package
 
     #Optional Parameters:
     #Title function is a call to a gui to set a title for an install screen
@@ -186,7 +186,7 @@ class appstore_handler(object):
         do_progress_function("Paths set", 10)
 
         if not package:
-            print("No repo entry data passed to appstore handler.")
+            print("No repo entry data passed to libget handler.")
             print("Not continuing with install")
             return
         try:
@@ -240,7 +240,7 @@ class appstore_handler(object):
         do_progress_function(install_message, 50)
 
         # Append base directory to packages directory
-        packagesdir = os.path.join(self.base_install_path, LIBGET_DIR)
+        packagesdir = os.path.join(self.base_install_path, self.libget_dir)
         if not os.path.isdir(packagesdir):
             os.makedirs(packagesdir)
         # Append package folder to packages directory
@@ -251,8 +251,8 @@ class appstore_handler(object):
         do_progress_function(f"Downloading package {package_name}", 60)
 
         # Download the package from the switchbru site
-        appstore_zip = getPackage(package_name)
-        if not appstore_zip:
+        libget_zip = self.webhandler.getPackage(package_name)
+        if not libget_zip:
             failedmsg = f"Failed to download zip for package {package_name}"
             print(failedmsg)
             do_progress_function(failedmsg, 65)
@@ -260,7 +260,7 @@ class appstore_handler(object):
 
         do_progress_function("Extracting...", 70)
 
-        with ZipFile(appstore_zip) as zipObj:
+        with ZipFile(libget_zip) as zipObj:
             namelist = zipObj.namelist()
             # Easy check to see if info and manifest files are in the zip
             if not PACKAGE_MANIFEST in namelist:
@@ -295,7 +295,7 @@ class appstore_handler(object):
             print("Wrote package info.")
             do_progress_function("Wrote package info", 95)
 
-        os.remove(appstore_zip)
+        os.remove(libget_zip)
 
         print("Installed {} version {}".format(package["title"], version))
         do_progress_function("Cleaned up", 100)
@@ -311,11 +311,11 @@ class appstore_handler(object):
         if not self.check_path():
             return warn_path_not_set()
         if not package:
-            print("No repo entry data passed to appstore handler.")
+            print("No repo entry data passed to libget handler.")
             print("Not continuing with uninstall")
             return
         if not self.check_if_get_init():
-            print("Appstore get folder not initiated.")
+            print("libget folder not initiated.")
             print("Not continuing with uninstall")
             return
 
@@ -344,6 +344,7 @@ class appstore_handler(object):
                     if not os.listdir(file):
                         os.rmdir(file)
                         print(f"removed empty directory {file}")
+
         self.remove_store_entry(package_name)
 
         print(f"Uninstalled package {package_name}")
@@ -359,14 +360,14 @@ class appstore_handler(object):
         if not self.check_path():
             return warn_path_not_set()
         # Append package name to packages directory
-        pacdir = os.path.join(LIBGET_DIR, package_name)
+        pacdir = os.path.join(self.libget_dir, package_name)
         # Append base directory to packages directory
         packagedir = os.path.join(self.base_install_path, pacdir)
         try:
             shutil.rmtree(packagedir, ignore_errors=True)
-            print(f"Removed appstore entry for {package_name}")
+            print(f"Removed libget entry for {package_name}")
         except Exception as e:
-            print(f"Error removing store entry for {package_name} - {e}")
+            print(f"Error removing libget entry for {package_name} - {e}")
 
 
     # Get the contents of a package's info file as a dict
@@ -375,7 +376,7 @@ class appstore_handler(object):
         if not self.check_path():
             return
         # Append package name to packages directory
-        pacdir = os.path.join(LIBGET_DIR, package_name)
+        pacdir = os.path.join(self.libget_dir, package_name)
         # Append base directory to packages directory
         packagedir = os.path.join(self.base_install_path, pacdir)
         # Append package loc to info file name
@@ -411,7 +412,7 @@ class appstore_handler(object):
         if not self.check_path():
             return warn_path_not_set()
         # Append package name to packages directory
-        pacdir = os.path.join(LIBGET_DIR, package_name)
+        pacdir = os.path.join(self.libget_dir, package_name)
         # Append base directory to packages directory
         packagedir = os.path.join(self.base_install_path, pacdir)
         # Append package loc to manifest file name
@@ -426,22 +427,20 @@ class appstore_handler(object):
             for fileline in maf:
                 fl = fileline.replace(MANIFEST_PREFIX, "")
                 fl = fl.strip().replace("\n", "")
-                mf.append(os.path.join(self.base_install_path, fl))
-                print(fl)
+                mf.append(os.path.join(os.path.realpath(self.base_install_path), fl))
         return mf
 
-
-    def get_packages(self, silent=False):
+    def get_packages(self, silent: bool = False):
         if not self.check_path():
-            return warn_path_not_set()
-        packagedir = os.path.join(self.base_install_path, LIBGET_DIR)
+            return (warn_path_not_set() if not silent else None)
+        packagedir = os.path.join(self.base_install_path, self.libget_dir)
 
         if os.path.isdir(packagedir):
-            LIBGET_DIR_items = os.listdir(packagedir)
+            libget_dir_items = os.listdir(packagedir)
 
             packages = []
             # Go through items in packages dir
-            for possible_package in LIBGET_DIR_items:
+            for possible_package in libget_dir_items:
                 # Find the path of the package
                 pathed_package = os.path.join(packagedir, possible_package)
                 package_json = os.path.join(pathed_package, PACKAGE_INFO)
@@ -459,8 +458,8 @@ class appstore_handler(object):
     def edit_info(self, package_name: str, key: str, value):
         if not self.check_path():
             return warn_path_not_set()
-        packagedir = os.path.join(self.base_install_path, LIBGET_DIR)
-        packagesdir = os.path.join(self.base_install_path, LIBGET_DIR)
+        packagedir = os.path.join(self.base_install_path, self.libget_dir)
+        packagesdir = os.path.join(self.base_install_path, self.libget_dir)
         packagedir = os.path.join(packagesdir, package_name)
         pkg = os.path.join(packagedir, PACKAGE_INFO)
 
@@ -488,4 +487,4 @@ class appstore_handler(object):
 
 
 def warn_path_not_set():
-    print("Warning: appstore path not set")
+    print("Warning: install path not set")

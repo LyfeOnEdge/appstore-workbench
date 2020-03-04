@@ -1,17 +1,32 @@
-if __name__ == "__main__":
-	sys.exit("This file was not meant to be run, try running appstoreworkbench.py")
+#Colors
 
+# primary_color = "#101010"
+# secondary_color = "#505050"
+primary_color = "#20232a"
+secondary_color = "#373940"
+primary_text_color = "#61dafb"
+secondary_text_color = "#6d6d6d"
 
-#Spacing
+lg = "#acacac" #Light gray
+llg = "#cccccc" #Light Light gray
+separator_color = "white"
+pathdisplaytextcolor = primary_text_color
+set_sd_button_background = secondary_color
+set_sd_button_foreground = "black"
+detail_page_label_color = lg
+
+PAGE_BACKGROUND = secondary_color
+
+#Sizing and spacing
+offset = 5
 sidecolumnwidth = 220
-bannerheight = sidecolumnwidth
 column_headerheight = 90
-updated_column_width = 80
-listbox_header_height = 30
-listbox_footer_height = listbox_header_height
 headerheight = 70
 footerheight = 100
-offset = 5
+listbox_header_height = 30
+listbox_footer_height = 30
+bannerheight = sidecolumnwidth
+updated_column_width = 80
 buttonsize = 40
 thumbnailwidth = 500
 thumbnailheight = 300
@@ -22,60 +37,22 @@ statussize = buttontextheight
 progressbarheight = 80
 yesnopagefooterheight = 70
 sortdropdownwidth = 150
-detailspagemultiplier = 70
+details_item_y_multiplier = 60
 scrollbarwidth = 20
+details_page_image_fraction = 0.35
+detais_page_title_height = 15
 
-tiny_thumbnail_height = 75
-tiny_thumbnail_width = 125
-small_thumbnail_height = 150
-small_thumbnail_width = 250
-medium_thumbnail_height = 225
-medium_thumbnail_width = 375
-large_thumbnail_height = 300
-large_thumbnail_width = 500
-huge_thumbnail_height = 375
-huge_thumbnail_width = 625
-
-##Text Styles
+#Fonts
 #Normal Text
 smallertext = ("Corbel",8)
 smalltext = ("Corbel",10)
 mediumtext = ("Corbel",12)
 largetext = ("Corbel",14,)
 #Bold
-smallerboldtext = ("Corbel",8,"bold")
+smallerboldtext = ("Corbel",9,"bold")
 smallboldtext = ("Corbel",10,"bold")
 mediumboldtext = ("Corbel",12,"bold")
 largeboldtext = ("Corbel",14,"bold")
 giantboldtext = ("Corbel",16,"bold")
 hugeboldtext = ("Corbel",20,"bold")
 mondoboldtext = ("Corbel",25,"bold")
-
-#easy color definitions
-b = "#000000" #Black
-w = "#ffffff" #White
-r = "#ff0000" #Red
-g = "#00ff00" #Green
-blu = "#0000ff" #Blue
-lg = "#acadaf" #Light gray
-
-# ##Main colors:
-# #Color for most user-interactable items
-# color_1 = "#303030"
-# #background color
-# color_2 = "#424242"
-
-# ##SPIDERMAN
-# #Color for most user-interactable items
-# color_1 = r
-# #background color
-# color_2 = blu
-
-##HIGH-CONTRAST
-#Color for most user-interactable items
-color_1 = "#101010"
-#background color
-color_2 = "#505050"
-
-
-pathdisplaytextcolor = w

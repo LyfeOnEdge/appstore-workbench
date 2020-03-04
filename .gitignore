@@ -1,8 +1,7 @@
-
 *.pyc
-cache/*
-tools/*
-settings.json
-*downloads
-appstore-workbench.zip
+/cache/*
+/tools*
+/downloads/*
 build.zip
+/config.py
+/plugins*

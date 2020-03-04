@@ -17,6 +17,8 @@ class asyncThreader():
         self.unique_threads = []
         self.running_threads = []
 
+        self.group_threads = []
+
         self.unique = None
 
         self.watchdog = None
@@ -36,6 +38,18 @@ class asyncThreader():
                             "l" : self.low_priority_threads,
                             }
 
+    def add_to_group(self, func, arglist = []):
+        t = asyncThread(func, arglist)
+        self.group_threads.append(t)
+
+    def do_group(self):
+        for t in self.group_threads:
+            t.begin()
+
+    def join_group(self):
+        for t in self.group_threads:
+            t.join()
+
     def do_async(self, func, arglist = [], priority = "low"):
         t = asyncThread(func, arglist)
         #If there is room for another thread do it now, else prioritize it
@@ -46,8 +60,10 @@ class asyncThreader():
             self.priority_map[priority].append(t)
 
     def join(self):
+        print("Joining worker threads")
         if self.running_threads:
             for t in self.running_threads:
+                print("Joined {}".format(t))
                 t.join()
             self.running_threads = []
 
