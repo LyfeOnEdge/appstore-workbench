@@ -148,7 +148,7 @@ class window(tk.Tk):
 		for plugin in plugins:
 			try:
 				print(f"Loading plugin at {plugin}")
-				plugin = plugin[:-3].replace("/", ".")[1:]
+				plugin = plugin[:-3].replace("/", ".").replace("\\", ".")[1:]
 				m = importlib.import_module(plugin)	#Import plugin
 				plugin_object = m.setup(self, self.container) #Import lib and call setup to get plugin object
 				pluginlist.append(plugin_object)
