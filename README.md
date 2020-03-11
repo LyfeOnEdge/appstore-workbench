@@ -98,8 +98,7 @@ class Plugin(basePlugin.BasePlugin):
   def get_pages(self):
     #If your plugin does more than run in the background,
     #this function will need to return a list of pages
-    #derived from 
-    #See README section on 
+    #derived from basePage.BasePage
     return []
 
   def exit(self):
@@ -141,7 +140,7 @@ class Page(basePage.BasePage):
 ## Threading
 Also included in this project is a worker thread tool I made
 that works with tkinter (calling threads from within the gui 
-normally doesn't work). Threads must be procedural (they can't)
+normally doesn't work). Threads must be procedural (they can't
 return something), but they are incredibly useful for updating
 elements of the gui without blocking everything else.
 ##### Example Usage:
