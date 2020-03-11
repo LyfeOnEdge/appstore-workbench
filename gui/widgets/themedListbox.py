@@ -14,3 +14,9 @@ class ThemedListbox(Listbox):
 			exportselection = False,
 			disabledforeground = style.llg
 		)
+
+	def clear(self):
+		state = self.cget("state")
+		self.configure(state = "normal")
+		self.delete(0, "end")
+		self.configure(state = state)

@@ -50,7 +50,7 @@ class CategoryPage(BasePage):
 				 category_packages: list = [],
 				 ):
 		BasePage.__init__(self, app, container, category_name)
-		assert len(category_packages) != 0,"No packages!"
+		# assert len(category_packages) != 0,"No packages!"
 		self.name = category_name
 		self.packages = category_packages
 		self.current_search = None
@@ -81,6 +81,7 @@ class CategoryPage(BasePage):
 		self.content_frame_header_sort_method_dropdown.configure(borderwidth = 0)
 
 		self.content_frame_header_sort_method_dropdown.place(relx = 1, x = -(style.offset + style.sortdropdownwidth), width = style.sortdropdownwidth, y=+ 1.5 * style.offset, relheight =1, height = - 2 *style.offset)
+		self.content_frame_header_sort_method_dropdown.unbind("<F10>")
 		self.content_frame_header_search_bar.place(x = 0, y=+ 1.5 * style.offset, relheight =1, relwidth = 1, width = - (2 * style.offset + style.sortdropdownwidth), height = - 2 *style.offset)
 
 		self.body_frame = tk.Frame(self, background = style.primary_color)
@@ -130,7 +131,23 @@ class CategoryPage(BasePage):
 		self.package_listbox.bind("<<ListboxSelect>>", self.on_listbox_selection)
 
 		self.scrollbar.config(command=self.on_scroll_bar)
-		self.package_listbox.config(yscrollcommand=self.scrollbar.set)         
+		self.package_listbox.config(yscrollcommand=self.scrollbar.set)      
+
+		bindlist = [
+			self,
+			self.package_listbox,
+			self.title_listbox,
+			self.author_listbox,
+			self.updated_listbox
+		]
+
+		if platform.system() == 'Windows' or platform.system() == "Darwin":
+			for b in bindlist:
+				b.bind("<MouseWheel>", self.on_mouse_wheel)
+		elif platform.system() == "Linux":
+			for b in bindlist:
+				b.bind("<Button-4>", self.on_mouse_wheel)
+				b.bind("<Button-5>", self.on_mouse_wheel)   
 
 		self.set_sort_type(None)
 		self.rebuild()
@@ -209,22 +226,6 @@ class CategoryPage(BasePage):
 			for lb in self.listbox_list:
 				lb.configure(state = "disable")
 			self.package_listbox.configure(state = 'normal')
-
-			bindlist = [
-				self,
-				self.package_listbox,
-				self.title_listbox,
-				self.author_listbox,
-				self.updated_listbox
-			]
-
-			if platform.system() == 'Windows' or platform.system() == "Darwin":
-				for b in bindlist:
-					b.bind("<MouseWheel>", self.on_mouse_wheel)
-			elif platform.system() == "Linux":
-				for b in bindlist:
-					b.bind("<Button-4>", self.on_mouse_wheel)
-					b.bind("<Button-5>", self.on_mouse_wheel)
 
 	def open_details(self, package):
 		self.app.detail_page.show(package, self.appstore_handler)

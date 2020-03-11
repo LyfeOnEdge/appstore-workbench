@@ -5,7 +5,8 @@
 primary_color = "#20232a"
 secondary_color = "#373940"
 primary_text_color = "#61dafb"
-secondary_text_color = "#6d6d6d"
+secondary_text_color = "#acacac"
+warning_text_color = "orange"
 
 lg = "#acacac" #Light gray
 llg = "#cccccc" #Light Light gray
@@ -39,7 +40,7 @@ yesnopagefooterheight = 70
 sortdropdownwidth = 150
 details_item_y_multiplier = 60
 scrollbarwidth = 20
-details_page_image_fraction = 0.35
+details_page_image_fraction = 0.4
 detais_page_title_height = 15
 
 #Fonts

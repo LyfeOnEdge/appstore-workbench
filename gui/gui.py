@@ -1,10 +1,11 @@
-import os, sys, json, glob, importlib
+import os, sys, json, glob, importlib, traceback
 import tkinter as tk
 import style, config
 from .pages import __pages__
 from .detailPage import DetailPage
 from .widgets import *
 from asyncthreader import threader
+
 
 #Frame handler, raises and pages in z layer,
 class window(tk.Tk):
@@ -52,7 +53,7 @@ class window(tk.Tk):
 
 		self.column_set_sd = button.Button(self.column_footer, 
 			callback = self.set_sd, 
-			text_string = "- Select SD Root -", 
+			text_string = "- Select Target Folder -", 
 			font=style.mediumtext, 
 			background=style.set_sd_button_background,
 			foreground=style.set_sd_button_foreground
@@ -140,7 +141,7 @@ class window(tk.Tk):
 
 		print("\n# Loading plugins.")
 		plugins = []
-		plugins_paths = ["./plugins", "./gui/plugins"]
+		plugins_paths = ["./gui/plugins", "./plugins"]
 		# plugins_paths.extend(plugins_path_list)
 		for path in plugins_paths:
 			plugins.extend(get_plugins(path))
@@ -154,6 +155,7 @@ class window(tk.Tk):
 				pluginlist.append(plugin_object)
 			except Exception as e:
 				print(f"Exception loading plugin {plugin} - {e}")
+				traceback.print_exc()
 
 		threader.do_group()
 		threader.join_group()
@@ -197,7 +199,9 @@ class window(tk.Tk):
 			try:
 				self.frames[frame].configure(event = None, force = force)
 			except Exception as e:
-				pass
+				f = self.frames[frame]
+				print(f"Exception reloading frame - {f.name} - {e}")
+				traceback.print_exc()
 
 	def set_sd(self):
 		chosensdpath = tk.filedialog.askdirectory(initialdir="/",  title='Please select your SD card')

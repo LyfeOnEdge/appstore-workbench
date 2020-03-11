@@ -14,7 +14,7 @@ class PluginPage(categoryPage.CategoryPage):
 		categoryPage.CategoryPage.__init__(self, app, container, handler, "PLUGINS", handler.all)
 		self.warning_acknowledged = False
 
-		self.warningframe = themedFrame.ThemedFrame(container)
+		self.warningframe = themedFrame.ThemedFrame(self)
 		self.warningframe.place(relwidth = 1, relheight = 1)
 		self.warning_label = tk.Label(self.warningframe, text = WARNING, background = style.primary_color, font = style.smalltext, foreground = style.primary_text_color)
 		self.warning_label.place(relx = 0.5, rely = 0.5, width = 500, height = 50, y = - 25, x = - 250)

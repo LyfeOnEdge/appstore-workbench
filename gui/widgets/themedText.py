@@ -16,3 +16,11 @@ class ThemedText(Text):
 		self.delete('1.0', "end")
 		self.insert("1.0", string)
 		self.configure(state="disabled")
+
+	def set_entry(self, string):
+		self.configure(state="normal")
+		self.delete('1.0', "end")
+		self.insert("1.0", string)
+
+	def get(self):
+		return self.get("1.0","end")

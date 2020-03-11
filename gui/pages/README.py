@@ -12,5 +12,8 @@ class page(tk.Frame):
 		with open("README.md") as README:
 			self.text.set(README.read())
 
+	def configure(self, event, force = False):
+		pass
+
 def setup(app, container):
 	return page(app, container)

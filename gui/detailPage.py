@@ -18,6 +18,7 @@ class DetailPage(themedFrame.ThemedFrame):
         self.selected_version = None
         self.version_index = None
         self.package = None
+        self.showing = False
 
         self.bind("<Configure>", self.on_configure)
 
@@ -72,7 +73,8 @@ class DetailPage(themedFrame.ThemedFrame):
             text_string = "VISIT PAGE", 
             font=style.mediumboldtext, 
             background=style.secondary_color,
-            ).place(rely=1,relwidth = 1, x = + 2 * style.offset, y = - 3 * (style.buttonsize + style.offset), width = - 4 * style.offset, height = style.buttonsize)
+            )
+        self.column_open_url_button.place(rely=1,relwidth = 1, x = + 2 * style.offset, y = - 3 * (style.buttonsize + style.offset), width = - 4 * style.offset, height = style.buttonsize)
 
         self.column_install_button = button.Button(self.column_body, 
             callback = self.trigger_install, 
@@ -97,18 +99,9 @@ class DetailPage(themedFrame.ThemedFrame):
 
         self.yesnoPage = YesNoPage(self)
 
-    def on_menu_update(self, option):
-        self.selected_tag_name.set(option)
-        self.select_version(option)
-
     def update_page(self,package):
-        self.selected_version = None
-
         self.package = package
-
         threader.do_async(self.update_banner)
-
-        version = package["version"]
 
         self.column_title.set("Title: {}".format(package["title"]))
 
@@ -118,7 +111,6 @@ class DetailPage(themedFrame.ThemedFrame):
             self.column_license.set("License: {}".format(package["license"]))
         except:
             self.column_license.set("License: N/A")
-
 
         self.column_package.set("Package: {}".format(package["name"]))
 
@@ -134,20 +126,10 @@ class DetailPage(themedFrame.ThemedFrame):
 
         self.column_downloads.set("Downloads: {}".format(ttl_dl))
         self.column_updated.set("Updated: {}".format(package["updated"]))
-
-        self.details.configure(state="normal")
-        self.details.delete('1.0', "end")
-
-        #Makes newlines in details print correctly. Hacky but :shrug:
-        details = package["description"].replace("\\n", """
-"""
-            )
-        self.details.insert("1.0", details)
-        self.details.configure(state="disabled")
+        self.details.set(package["description"].replace("\\n", """
+"""))
 
         self.update_buttons(package)
-
-        tags = []
 
     def update_buttons(self, package):
         #Hides or places the uninstalll button if not installed or installed respectively
@@ -191,6 +173,8 @@ class DetailPage(themedFrame.ThemedFrame):
             art_image = Image.open(image_path)
             wpercent = (maxwidth/float(art_image.size[0]))
             hsize = int((float(art_image.size[1])*float(wpercent)))
+            if hsize <= 0:
+                return
             new_image = art_image.resize((maxwidth,hsize), Image.ANTIALIAS)
             if new_image.size[1] > maxheight:
                 hpercent = (maxheight/float(art_image.size[1]))
@@ -202,11 +186,8 @@ class DetailPage(themedFrame.ThemedFrame):
             self.banner_image.configure(image=art_image)
             self.banner_image.image = art_image
 
-
-
-
-
     def show(self, package, handler):
+        self.showing = True
         self.appstore_handler = handler
         self.package_parser = handler
         self.do_update_banner("gui/assets/notfound.png")
@@ -216,6 +197,7 @@ class DetailPage(themedFrame.ThemedFrame):
             child.bind("<Escape>", self.leave)
 
     def leave(self):
+        self.showing = False
         self.app.main_page.tkraise()
         for child in self.winfo_children():
             child.unbind("<Escape>")

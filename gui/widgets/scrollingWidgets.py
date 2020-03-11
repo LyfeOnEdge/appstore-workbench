@@ -139,3 +139,25 @@ class ScrolledThemedListBox(AutoScroll, ThemedListbox):
     def __init__(self, master, **kw):
         ThemedListbox.__init__(self, master, **kw,)
         AutoScroll.__init__(self, master)
+
+class ScrolledEntry(AutoScroll, tk.Entry):
+    @_create_container
+    def __init__(self, master, **kw):
+        tk.Entry.__init__(self, master, **kw,)
+        AutoScroll.__init__(self, master)
+
+class ScrolledEasyText(AutoScroll, tk.Text):
+    @_create_container
+    def __init__(self, master, **kw):
+        tk.Text.__init__(self, master, **kw)
+        AutoScroll.__init__(self, master)
+        self.configure(state = 'disable')
+        self.configure(borderwidth = 0)
+        self.configure(highlightthickness = 0)
+
+    def set(self, setstring: str):
+        self.configure(state = 'normal')
+        self.delete('1.0', 'end')
+        self.insert('end', setstring)
+        self.configure(state = 'disable')
+

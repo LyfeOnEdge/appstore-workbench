@@ -25,5 +25,8 @@ class exitPage(tk.Frame):
 		print("Exiting...")
 		self.app.exit()
 
+	def configure(self, event, force = False):
+		pass
+
 def setup(app, container):
 	return exitPage(app, container)
