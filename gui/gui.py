@@ -22,6 +22,7 @@ class window(tk.Tk):
 		self.has_update = None
 		self.plugins = []
 		self.version = version
+		self.pluginmap = {}
 		# self.resizable(False, False)
 
 		self.detail_page = DetailPage(self)
@@ -87,13 +88,12 @@ class window(tk.Tk):
 			widget = event.widget
 			selection = widget.curselection()
 			picked = widget.get(selection[0])
-			if not picked == self.last_selection:
-				frame = None
-				for f in self.frames:
-					self.frames[f].picked = False
-					if self.frames[f].name.strip() == picked.strip():
-						self.frames[f].picked = True #Only reload frame if it's visible, saves a lot of unnecessary page rebuilds and makes resizing faster
-						self.show_frame(self.frames[f].name)
+			frame = None
+			for f in self.frames:
+				self.frames[f].picked = False
+				if self.frames[f].name.strip() == picked.strip():
+					self.frames[f].picked = True #Only reload frame if it's visible, saves a lot of unnecessary page rebuilds and makes resizing faster
+					self.show_frame(self.frames[f].name)
 				self.last_selection = picked
 		except Exception as e:
 			print(e)
@@ -152,6 +152,7 @@ class window(tk.Tk):
 				plugin = plugin[:-3].replace("/", ".").replace("\\", ".")[1:]
 				m = importlib.import_module(plugin)	#Import plugin
 				plugin_object = m.setup(self, self.container) #Import lib and call setup to get plugin object
+				self.pluginmap[plugin] = plugin_object
 				pluginlist.append(plugin_object)
 			except Exception as e:
 				print(f"Exception loading plugin {plugin} - {e}")
@@ -165,7 +166,43 @@ class window(tk.Tk):
 			self.load_pages(plugin.get_pages())
 
 		print("# Done loading plugins.\n")
-		self.load_pages(pagelist)
+
+	#To be called with a freshly installed plugin.
+	def load_plugin(self, plugin_path):
+		if not plugin_path:
+			print("load_plugin called with empty plugin path")
+			return
+		try:
+			plugin = os.path.join("plugins",plugin_path)
+			if not os.path.isfile(plugin):
+				print(f"Failed to find plugin at {plugin}")
+				return
+
+			try:
+				print(f"Loading plugin at {plugin}")
+				plugin = plugin[:-3].replace("/", ".").replace("\\", ".")
+				loaded_plugin = self.pluginmap.get(plugin)
+				if loaded_plugin:
+					print(f"Unloading plugin {loaded_plugin.name}")
+					loaded_plugin.exit()
+					del loaded_plugin
+
+				m = importlib.import_module(plugin)	#Import plugin
+				plugin_object = m.setup(self, self.container) #Import lib and call setup to get plugin object
+				self.pluginmap[plugin] = plugin_object
+			except Exception as e:
+				print(f"Exception loading plugin {plugin} - {e}")
+				traceback.print_exc()
+				return
+
+			threader.do_group()
+			threader.join_group()
+
+			self.load_pages(plugin_object.get_pages())
+
+		except Exception as e:
+			print(f"Exception loading plugin at {plugin_path} - {e}")
+			traceback.print_exc()
 
 	def load_pages(self, pagelist):
 		"""Sort pages in alphabetical order"""
@@ -175,11 +212,14 @@ class window(tk.Tk):
 			for F in pagelist:
 				page_name = F.name
 				self.frames[page_name] = F
-				self.category_listbox.insert("end", " {}".format(page_name))
 
 				#place the frame to fill the whole window, stack them all in the same place
 				F.place(relwidth = 1, relheight = 1)
 				self.pagelist.append(F)
+
+			self.category_listbox.delete(0, 'end')
+			for page_name in self.frames.keys():
+				self.category_listbox.insert("end", " {}".format(page_name))
 		else:
 			print("No pages to initialize.")
 
@@ -193,11 +233,11 @@ class window(tk.Tk):
 				pagelist.append(p.setup(self, self.container))
 		self.load_pages(pagelist)
 
-	def reload_category_frames(self, force):
+	def reload_category_frames(self, _ = None):
 		print("Reloading frames")
 		for frame in self.frames:
 			try:
-				self.frames[frame].configure(event = None, force = force)
+				self.frames[frame].configure(event = None)
 			except Exception as e:
 				f = self.frames[frame]
 				print(f"Exception reloading frame - {f.name} - {e}")

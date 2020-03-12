@@ -49,6 +49,7 @@ class asyncThreader():
     def join_group(self):
         for t in self.group_threads:
             t.join()
+        self.group_threads = []
 
     def do_async(self, func, arglist = [], priority = "low"):
         t = asyncThread(func, arglist)

@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 version = "3.2"
-version_string = f"Appstore Workbench {version}"
 
 import os
 import sys
@@ -10,10 +9,10 @@ import json
 import threading
 from timeit import default_timer as timer
 # print version, exit if minimum version requirements aren't met
-print("Using Python {}.{}".format(sys.version_info[0], sys.version_info[1]))
 if sys.hexversion < 0x03060000:  # Trying to import tkinter in the new syntax after python 2 causes a crash
     sys.exit("Python 3.6 or greater is required to run this program.")
-
+print("Using Python {}.{}".format(sys.version_info[0], sys.version_info[1]))
+version_string = f"Appstore Workbench {version}"
 # This is called before the below module imports to ensure no exception is
 # encountered trying to import tk
 try:

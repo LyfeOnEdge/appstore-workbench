@@ -203,8 +203,10 @@ class DetailPage(themedFrame.ThemedFrame):
             child.unbind("<Escape>")
 
     def reload_function(self):
-            self.app.reload_category_frames(force = True)
-            self.reload()
+        print("Reloading")
+        self.app.load_plugin(self.package.get("binary"))
+        self.app.reload_category_frames()
+        self.reload()
 
     def trigger_install(self):
         if not self.appstore_handler.check_path():
