@@ -13,7 +13,7 @@ llg = "#cccccc" #Light Light gray
 separator_color = "white"
 pathdisplaytextcolor = primary_text_color
 set_sd_button_background = secondary_color
-set_sd_button_foreground = "black"
+set_sd_button_foreground = primary_text_color
 detail_page_label_color = lg
 
 PAGE_BACKGROUND = secondary_color

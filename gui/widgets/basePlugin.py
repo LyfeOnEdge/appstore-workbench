@@ -16,4 +16,4 @@ class BasePlugin:
 		print("Exited the basePlugin")
 
 	def out(self, outobj):
-		print(f"{self.name} - {outobj}")
+		print(f"[PLUGIN] - {self.name} - {outobj}")
