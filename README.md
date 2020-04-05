@@ -40,7 +40,7 @@ Appstore Workbench began as an attempt to provide a desktop alternative to 4TU's
 ##### Macintosh:
 - Extract appstore-workbench.zip
 - Mac users may already have a compatible version of python installed, try double-clicking appstoreworkbench.py
-- In a command prompt navigate to the dir you extracted the app to and type ```pip3 install -r requirements``` to install dependencies
+- In a command prompt navigate to the dir you extracted the app to and type ```pip3 install -r requirements.txt``` to install dependencies
   - If the file opens in a text reader, close the reader and right-click the file and open it with pylauncher
 - If this still doesn't work, install [python](https://www.python.org/downloads/release/python-373/)
 - To run the app: double-click `appstore-workbench.py`
@@ -48,7 +48,7 @@ Appstore Workbench began as an attempt to provide a desktop alternative to 4TU's
 ##### Linux:
 - Extract appstore-workbench.zip
 - Navigate to the directory in a terminal
-- Type ```pip3 install -r requirements``` to install dependencies
+- Type ```pip3 install -r requirements.txt``` to install dependencies
 - Type `python appstoreworkbench.py`
   - If you are missing dependencies do the following:
   - `sudo apt install python3 python3-pip python3-tk python3-pil.imagetk`
