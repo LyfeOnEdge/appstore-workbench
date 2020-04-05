@@ -51,7 +51,8 @@ Appstore Workbench began as an attempt to provide a desktop alternative to 4TU's
 - Type ```pip3 install -r requirements.txt``` to install dependencies
 - Type `python appstoreworkbench.py`
   - If you are missing dependencies do the following:
-  - `sudo apt install python3 python3-pip python3-tk python3-pil.imagetk`
+    - Ubuntu/Debian: `sudo apt install python3 python3-pip python3-tk python3-pil.imagetk`
+    - Manjaro/Arch: `sudo pacman -S python3 python-pip tk python-pillow`
 - If you don't know how to do this you should probably be using Windows.
 - Finally type `python3 appstore-workbench.py`
 
