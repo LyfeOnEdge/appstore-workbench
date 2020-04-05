@@ -34,7 +34,7 @@ Appstore Workbench began as an attempt to provide a desktop alternative to 4TU's
 - Install [python](https://www.python.org/downloads/release/python-373/)
   - You *must* restart your pc after installing python for the first time.
   - If you do a custom installation remember to install tcl/tk, add python to the path, and include pip
-- In a command prompt navigate to the dir you extracted the app to and type ```pip install -r requirements``` to install dependencies
+- In a command prompt navigate to the dir you extracted the app to and type ```pip install -r requirements.txt``` to install dependencies
 - Type `python appstore-workbench`
 
 ##### Macintosh:
