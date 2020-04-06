@@ -1,5 +1,5 @@
 # Appstore Workbench
-[![Appstore-workbench](https://cdn.discordapp.com/attachments/616331814021103674/684187810353512488/unknown.png)]()
+[![Appstore-workbench](https://github.com/LyfeOnEdge/appstore-workbench/blob/master/docu/main.png?raw=true)]()
 
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)]() [![Releases](https://img.shields.io/github/downloads/LyfeOnEdge/appstore-workbench/total.svg)]() [![LatestVer](https://img.shields.io/github/release-pre/LyfeOnEdge/appstore-workbench.svg)]() 
 
@@ -49,7 +49,7 @@ Appstore Workbench began as an attempt to provide a desktop alternative to 4TU's
 - Extract appstore-workbench.zip
 - Navigate to the directory in a terminal
 - Type ```pip3 install -r requirements.txt``` to install dependencies
-- Type `python appstoreworkbench.py`
+- Type `python appstore-workbench.py`
   - If you are missing dependencies do the following:
     - Ubuntu/Debian: `sudo apt install python3 python3-pip python3-tk python3-pil.imagetk`
     - Manjaro/Arch: `sudo pacman -S python3 python-pip tk python-pillow`
@@ -149,6 +149,10 @@ elements of the gui without blocking everything else.
 from gui.widgets import basePage
 from asyncthreader import threader #Import thread
 
+def load_big_file():
+  #When called above by the threader anything here will run without blocking
+  pass
+
 class Page(basePage.BasePage):
     def __init__(self, app, container, plugin):
         super().__init__(self, app, container, "NAME")
@@ -157,11 +161,9 @@ class Page(basePage.BasePage):
   def on_button_push(self):
     #Calling something blocking here would freeze everything
     #Instead call it as a thread
-    threader.do_async(self.load_big_file_async)
+    threader.do_async(load_big_file)
     
-  def load_big_file_async(self):
-    #When called above by the threader anything here will run without blocking
-    pass
+
 ```
 Additionally threads can be called with args:
 ```py

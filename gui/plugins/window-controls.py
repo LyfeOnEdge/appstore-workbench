@@ -6,9 +6,9 @@ class Plugin(basePlugin.BasePlugin):
 		basePlugin.BasePlugin.__init__(self, app, "window-controls", container)
 		self.app = app
 		self.container = container
-		self.fullScreenState = False,
-		self.zoomedScreenState = False,
-		self.topmostScreenState = False,
+		self.fullScreenState = False
+		self.zoomedScreenState = False
+		self.topmostScreenState = False
 
 		self.screen_attributes = {
 			"-topmost",

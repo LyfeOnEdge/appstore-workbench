@@ -48,12 +48,14 @@ class libget_handler(object):
             print("libget packages dir already inited")
 
     # Set this to a root of an sd card or in a dir to test
-    def set_path(self, path: str):
+    def set_path(self, path: str, silent = False):
         self.base_install_path = path
         if self.base_install_path:
-            print(f"Set SD Root path to {path}")
+            if not silent:
+                print(f"Set SD Root path to {path}")
         else:
-            print("Invalid path set")
+            if not silent:
+                print("Invalid path set")
         self.packages = None
         self.get_packages()
 
